@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.springframework.cloud.netflix.eureka.server.EnableEurekaServer"/>
+    <fullyQualifiedTypeName name="org.springframework.cloud.client.discovery.EnableDiscoveryClient"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.ProductResponse"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.ProductCreateRequest"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.ProductUpdateRequest"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.PaginatedResponse"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.ProductSearchRequest"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.AuthResponse"/>
+    <fullyQualifiedTypeName name="com.lohari.util.JwtUtil"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.OrderResponse"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.OrderCreateRequest"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.OrderTrackingResponse"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.OrderUpdateRequest"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.OrderStatusUpdateRequest"/>
+    <fullyQualifiedTypeName name="com.lohari.dto.DashboardStatsResponse"/>
+    <fullyQualifiedTypeName name="org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity"/>
+</qualifiedTypeNameHistroy>
