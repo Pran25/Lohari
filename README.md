@@ -92,7 +92,7 @@ Customers can use a custom drawing/design interface to communicate fabrication r
 
 ### 📊 Business Architecture
 
-* Microservices-based backend
+* Monolithic-based backend
 * API Gateway
 * Service discovery using Eureka
 * Independent services for business domains
@@ -118,7 +118,7 @@ Customers can use a custom drawing/design interface to communicate fabrication r
 | Technology      | Purpose                   |
 | --------------- | ------------------------- |
 | Java            | Backend development       |
-| Spring Boot     | Microservices development |
+| Spring Boot     | Monolithic development |
 | Spring Web      | REST APIs                 |
 | Spring Data JPA | Database access           |
 | Spring Security | Application security      |
