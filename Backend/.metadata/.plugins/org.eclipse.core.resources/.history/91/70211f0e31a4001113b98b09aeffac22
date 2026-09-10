@@ -1,0 +1,5 @@
+package com.lohari.service;
+
+public interface PaymentService {
+
+}

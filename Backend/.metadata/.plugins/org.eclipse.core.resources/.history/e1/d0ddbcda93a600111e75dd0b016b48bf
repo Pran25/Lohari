@@ -1,0 +1,5 @@
+package com.lohari.model;
+
+public class Review {
+
+}

@@ -1,0 +1,5 @@
+package com.lohari.repository;
+
+public interface ReviewRepository {
+
+}

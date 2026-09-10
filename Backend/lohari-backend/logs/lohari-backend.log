@@ -1,0 +1,1421 @@
+2026-09-02 11:30:26 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:30:26 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:30:26 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:30:26 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-09-02 11:30:26 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-09-02 11:30:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:30:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 152 ms. Found 10 JPA repository interfaces.
+2026-09-02 11:30:31 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:30:31 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:30:31 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:30:31 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:30:31 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5057 ms
+2026-09-02 11:30:32 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:30:32 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.8.Final
+2026-09-02 11:30:32 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:30:32 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:30:32 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-02 11:30:34 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@511c2521
+2026-09-02 11:30:34 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-02 11:30:34 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:30:34 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:30:37 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:30:38 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:30:39 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-02 11:30:39 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:30:45 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:30:46 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:30:46 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:30:49 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:30:49 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:30:49 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 23.377 seconds (process running for 24.697)
+2026-09-02 11:31:06 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-02 11:31:06 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-09-02 11:31:06 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2026-09-02 11:31:06 [http-nio-8081-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/auth/me
+2026-09-02 11:31:06 [http-nio-8081-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/auth/me
+2026-09-02 11:31:06 [http-nio-8081-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:31:06 [http-nio-8081-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-09-02 11:31:06 [http-nio-8081-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:31:06 [http-nio-8081-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:31:06 [http-nio-8081-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-09-02 11:31:06 [http-nio-8081-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:31:11 [http-nio-8081-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /oauth2/authorization/google
+2026-09-02 11:31:11 [http-nio-8081-exec-4] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=130483133285-q1uv723l828jlf301bra6v3cja4tmnfu.apps.googleusercontent.com&scope=email%20profile&state=g6l3WvYIY_CWsXrKL9xwA2GuFORjuFJYQjzFWGoXw0Q%3D&redirect_uri=http://localhost:8081/login/oauth2/code/google
+2026-09-02 11:31:12 [http-nio-8081-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login/oauth2/code/google?state=g6l3WvYIY_CWsXrKL9xwA2GuFORjuFJYQjzFWGoXw0Q%3D&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0ATsMZqCX6GUQDOKk-fnOo8elUdxAN90upDutAOt9pYEQgbIZwCWZEUqnqfb8uXjFzmm3yA&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=none
+2026-09-02 11:31:13 [http-nio-8081-exec-5] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from 0DBF8412E68DFD43C903D760C25B8CA4
+2026-09-02 11:31:13 [http-nio-8081-exec-5] DEBUG o.s.s.o.c.w.OAuth2LoginAuthenticationFilter - Set SecurityContextHolder to OAuth2AuthenticationToken [Principal=Name: [116584909716390317274], Granted Authorities: [[OAUTH2_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{sub=116584909716390317274, name=Pranav Pardeshi, given_name=Pranav, family_name=Pardeshi, picture=https://lh3.googleusercontent.com/a/ACg8ocKv1cGq69qIu8PLK3wnvv6KP8DC4iHCIyQodCI7DuthQcsvIA=s96-c, email=pranavpardeshi64@gmail.com, email_verified=true}], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=0DBF8412E68DFD43C903D760C25B8CA4], Granted Authorities=[OAUTH2_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]]
+2026-09-02 11:31:13 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:31:13 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-09-02 11:31:14 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:31:14 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:31:14 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:31:14 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:31:14 [http-nio-8081-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:31:14 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:31:14 [http-nio-8081-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:31:14 [http-nio-8081-exec-7] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:32:09 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-09-02 11:32:09 [Thread-5] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:32:09 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:32:09 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:32:09 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-09-02 11:32:09 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-09-02 11:32:11 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:32:11 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:32:11 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:32:13 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:32:13 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 10 JPA repository interfaces.
+2026-09-02 11:32:15 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:32:15 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:32:15 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:32:15 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:32:15 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4107 ms
+2026-09-02 11:32:15 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:32:15 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:32:16 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:32:16 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-09-02 11:32:16 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@3e07529e
+2026-09-02 11:32:16 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-09-02 11:32:16 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:32:16 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:32:21 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:32:23 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:32:24 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:32:27 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:32:27 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:32:27 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:32:27 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:32:27 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:32:27 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 18.178 seconds (process running for 123.328)
+2026-09-02 11:32:27 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:32:29 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 4 class path changes (0 additions, 0 deletions, 4 modifications)
+2026-09-02 11:32:29 [Thread-7] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:32:29 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:32:29 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:32:29 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-09-02 11:32:29 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-09-02 11:32:29 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:32:29 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:32:29 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:32:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:32:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 10 JPA repository interfaces.
+2026-09-02 11:32:31 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:32:31 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:32:31 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:32:31 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:32:31 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1906 ms
+2026-09-02 11:32:31 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:32:31 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:32:31 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:32:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-09-02 11:32:31 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@6519b931
+2026-09-02 11:32:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-09-02 11:32:31 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:32:31 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:32:32 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:32:32 [restartedMain] DEBUG org.hibernate.SQL - 
+    create table reviews (
+        id bigint generated by default as identity,
+        comment TEXT,
+        created_at timestamp(6),
+        is_approved boolean,
+        is_verified_purchase boolean,
+        order_id bigint,
+        rating integer not null,
+        title varchar(255),
+        updated_at timestamp(6),
+        product_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2026-09-02 11:32:33 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table if exists reviews 
+       add constraint FKpl51cejpw4gy5swfar8br9ngi 
+       foreign key (product_id) 
+       references products
+2026-09-02 11:32:33 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table if exists reviews 
+       add constraint FKcgy7qjc1r99dp117y9en6lxye 
+       foreign key (user_id) 
+       references users
+2026-09-02 11:32:33 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:32:33 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:32:34 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:32:34 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:32:34 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:32:34 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:32:34 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:32:34 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 5.15 seconds (process running for 130.025)
+2026-09-02 11:32:34 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:33:13 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-09-02 11:33:13 [Thread-11] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:33:14 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:33:14 [Thread-11] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:33:14 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-09-02 11:33:14 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2026-09-02 11:33:14 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:33:14 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:33:14 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:33:17 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:33:17 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 88 ms. Found 10 JPA repository interfaces.
+2026-09-02 11:33:17 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:33:17 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:33:17 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:33:17 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:33:17 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2911 ms
+2026-09-02 11:33:17 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:33:17 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:33:17 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:33:17 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2026-09-02 11:33:18 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@792146b3
+2026-09-02 11:33:18 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2026-09-02 11:33:18 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:33:18 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:33:20 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:33:22 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:33:22 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:33:23 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:33:23 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:33:23 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:33:23 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:33:23 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:33:23 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 9.118 seconds (process running for 179.235)
+2026-09-02 11:33:23 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:33:25 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 11:33:25 [Thread-15] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:33:25 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:33:25 [Thread-15] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:33:25 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2026-09-02 11:33:25 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2026-09-02 11:33:25 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:33:25 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:33:25 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:33:26 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:33:26 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 57 ms. Found 11 JPA repository interfaces.
+2026-09-02 11:33:26 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:33:26 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:33:26 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:33:26 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:33:26 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 703 ms
+2026-09-02 11:33:26 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:33:26 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:33:26 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:33:26 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2026-09-02 11:33:26 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@6814fc21
+2026-09-02 11:33:26 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2026-09-02 11:33:26 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:33:26 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:33:27 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:33:28 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:33:28 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:33:28 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:33:28 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:33:28 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:33:28 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:33:28 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:33:28 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 3.323 seconds (process running for 184.355)
+2026-09-02 11:33:28 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:34:01 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-09-02 11:34:01 [Thread-19] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:34:01 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:34:01 [Thread-19] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:34:01 [Thread-19] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2026-09-02 11:34:01 [Thread-19] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2026-09-02 11:34:02 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:34:02 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:34:02 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:34:02 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:34:02 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75 ms. Found 11 JPA repository interfaces.
+2026-09-02 11:34:03 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:34:03 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:34:03 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:34:03 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:34:03 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1165 ms
+2026-09-02 11:34:03 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:34:03 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:34:03 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:34:03 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2026-09-02 11:34:03 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@557de312
+2026-09-02 11:34:03 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2026-09-02 11:34:03 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:34:03 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:34:04 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:34:05 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:34:05 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:34:06 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:34:06 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:34:06 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:34:06 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:34:06 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:34:06 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 4.4 seconds (process running for 221.955)
+2026-09-02 11:34:06 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:34:11 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 11:34:11 [Thread-23] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:34:12 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:34:12 [Thread-23] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:34:12 [Thread-23] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2026-09-02 11:34:12 [Thread-23] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2026-09-02 11:34:13 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:34:13 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:34:13 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:34:14 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:34:14 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 104 ms. Found 11 JPA repository interfaces.
+2026-09-02 11:34:15 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:34:15 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:34:15 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:34:15 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:34:15 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2167 ms
+2026-09-02 11:34:15 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:34:15 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:34:15 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:34:15 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2026-09-02 11:34:15 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@710863ff
+2026-09-02 11:34:15 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2026-09-02 11:34:15 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:34:15 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:34:16 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:34:17 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:34:17 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:34:17 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:34:17 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:34:18 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:34:18 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:34:18 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:34:18 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 5.101 seconds (process running for 233.665)
+2026-09-02 11:34:18 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:34:25 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 11:34:25 [Thread-27] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 11:34:25 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 11:34:25 [Thread-27] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:34:25 [Thread-27] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2026-09-02 11:34:25 [Thread-27] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2026-09-02 11:34:25 [restartedMain] INFO  com.lohari.LohariBackendApplication - Starting LohariBackendApplication using Java 25.0.3 with PID 5992 (E:\Lohari\Backend\lohari-backend\target\classes started by Sarvadnya in E:\Lohari\Backend\lohari-backend)
+2026-09-02 11:34:25 [restartedMain] DEBUG com.lohari.LohariBackendApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2026-09-02 11:34:25 [restartedMain] INFO  com.lohari.LohariBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-02 11:34:26 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 11:34:26 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 46 ms. Found 11 JPA repository interfaces.
+2026-09-02 11:34:27 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-09-02 11:34:27 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-02 11:34:27 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-09-02 11:34:28 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-02 11:34:28 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2440 ms
+2026-09-02 11:34:28 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 11:34:28 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 11:34:28 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 11:34:28 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2026-09-02 11:34:28 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Added connection org.postgresql.jdbc.PgConnection@37408690
+2026-09-02 11:34:28 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2026-09-02 11:34:28 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-02 11:34:28 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-8)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-02 11:34:29 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 11:34:30 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 11:34:30 [restartedMain] DEBUG c.l.security.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2026-09-02 11:34:30 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-02 11:34:31 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-02 11:34:31 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, JwtAuthenticationFilter, DefaultResourcesFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-02 11:34:31 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 11:34:31 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-09-02 11:34:31 [restartedMain] INFO  com.lohari.LohariBackendApplication - Started LohariBackendApplication in 5.726 seconds (process running for 246.751)
+2026-09-02 11:34:31 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 11:38:38 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-02 11:38:38 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-09-02 11:38:38 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 24 ms
+2026-09-02 11:38:38 [http-nio-8081-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:38:38 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:38:38 [http-nio-8081-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:38:38 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:38:38 [http-nio-8081-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:38:38 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:38:38 [http-nio-8081-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:38:38 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:51:57 [http-nio-8081-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:51:57 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:51:57 [http-nio-8081-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:51:57 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:51:57 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/auth/me
+2026-09-02 11:51:57 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:51:57 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/auth/me
+2026-09-02 11:51:57 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/products
+2026-09-02 11:52:19 [http-nio-8081-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/products
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/products
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/products
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        p1_0.id,
+        p1_0.average_rating,
+        p1_0.base_price,
+        p1_0.cad_drawing_url,
+        p1_0.category_id,
+        p1_0.created_at,
+        p1_0.default_depth,
+        p1_0.default_finish_id,
+        p1_0.default_height,
+        p1_0.default_material_id,
+        p1_0.default_width,
+        p1_0.is_active,
+        p1_0.is_best_seller,
+        p1_0.is_custom_size_available,
+        p1_0.is_customizable,
+        p1_0.is_featured,
+        p1_0.is_in_stock,
+        p1_0.is_made_to_order,
+        p1_0.is_new,
+        p1_0.is_weight_calculated,
+        p1_0.lead_time_days,
+        p1_0.long_description,
+        p1_0.main_image_url,
+        p1_0.max_depth,
+        p1_0.max_height,
+        p1_0.max_width,
+        p1_0.min_depth,
+        p1_0.min_height,
+        p1_0.min_width,
+        p1_0.name,
+        p1_0.order_count,
+        p1_0.short_description,
+        p1_0.sketch_url,
+        p1_0.slug,
+        p1_0.stock_quantity,
+        p1_0.thumbnail_url,
+        p1_0.total_ratings,
+        p1_0.total_reviews,
+        p1_0.unit,
+        p1_0.updated_at,
+        p1_0.video_url,
+        p1_0.view_count,
+        p1_0.weight_kg 
+    from
+        products p1_0 
+    where
+        p1_0.is_active 
+    order by
+        p1_0.created_at desc 
+    fetch
+        first ? rows only
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.display_order,
+        c1_0.icon_url,
+        c1_0.image_url,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.parent_id,
+        c1_0.slug,
+        c1_0.updated_at 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.code,
+        m1_0.created_at,
+        m1_0.description,
+        m1_0.is_active,
+        m1_0.name,
+        m1_0.price_multiplier,
+        m1_0.unit,
+        m1_0.updated_at 
+    from
+        materials m1_0 
+    where
+        m1_0.id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.code,
+        f1_0.color_options,
+        f1_0.created_at,
+        f1_0.description,
+        f1_0.is_active,
+        f1_0.name,
+        f1_0.price_per_sqft,
+        f1_0.updated_at 
+    from
+        finishes f1_0 
+    where
+        f1_0.id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.product_id,
+        i1_0.id,
+        i1_0.alt_text,
+        i1_0.display_order,
+        i1_0.image_type,
+        i1_0.image_url,
+        i1_0.is_primary 
+    from
+        product_images i1_0 
+    where
+        i1_0.product_id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        v1_0.product_id,
+        v1_0.id,
+        v1_0.depth,
+        v1_0.finish_id,
+        v1_0.height,
+        v1_0.image_url,
+        v1_0.is_active,
+        v1_0.is_in_stock,
+        v1_0.material_id,
+        v1_0.price,
+        v1_0.sku,
+        v1_0.stock_quantity,
+        v1_0.variant_name,
+        v1_0.weight_kg,
+        v1_0.width 
+    from
+        product_variants v1_0 
+    where
+        v1_0.product_id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/products
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/products
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        p1_0.id,
+        p1_0.average_rating,
+        p1_0.base_price,
+        p1_0.cad_drawing_url,
+        p1_0.category_id,
+        p1_0.created_at,
+        p1_0.default_depth,
+        p1_0.default_finish_id,
+        p1_0.default_height,
+        p1_0.default_material_id,
+        p1_0.default_width,
+        p1_0.is_active,
+        p1_0.is_best_seller,
+        p1_0.is_custom_size_available,
+        p1_0.is_customizable,
+        p1_0.is_featured,
+        p1_0.is_in_stock,
+        p1_0.is_made_to_order,
+        p1_0.is_new,
+        p1_0.is_weight_calculated,
+        p1_0.lead_time_days,
+        p1_0.long_description,
+        p1_0.main_image_url,
+        p1_0.max_depth,
+        p1_0.max_height,
+        p1_0.max_width,
+        p1_0.min_depth,
+        p1_0.min_height,
+        p1_0.min_width,
+        p1_0.name,
+        p1_0.order_count,
+        p1_0.short_description,
+        p1_0.sketch_url,
+        p1_0.slug,
+        p1_0.stock_quantity,
+        p1_0.thumbnail_url,
+        p1_0.total_ratings,
+        p1_0.total_reviews,
+        p1_0.unit,
+        p1_0.updated_at,
+        p1_0.video_url,
+        p1_0.view_count,
+        p1_0.weight_kg 
+    from
+        products p1_0 
+    where
+        p1_0.is_active 
+    order by
+        p1_0.created_at desc 
+    fetch
+        first ? rows only
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.display_order,
+        c1_0.icon_url,
+        c1_0.image_url,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.parent_id,
+        c1_0.slug,
+        c1_0.updated_at 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.code,
+        m1_0.created_at,
+        m1_0.description,
+        m1_0.is_active,
+        m1_0.name,
+        m1_0.price_multiplier,
+        m1_0.unit,
+        m1_0.updated_at 
+    from
+        materials m1_0 
+    where
+        m1_0.id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.code,
+        f1_0.color_options,
+        f1_0.created_at,
+        f1_0.description,
+        f1_0.is_active,
+        f1_0.name,
+        f1_0.price_per_sqft,
+        f1_0.updated_at 
+    from
+        finishes f1_0 
+    where
+        f1_0.id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.product_id,
+        i1_0.id,
+        i1_0.alt_text,
+        i1_0.display_order,
+        i1_0.image_type,
+        i1_0.image_url,
+        i1_0.is_primary 
+    from
+        product_images i1_0 
+    where
+        i1_0.product_id=?
+2026-09-02 11:52:19 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        v1_0.product_id,
+        v1_0.id,
+        v1_0.depth,
+        v1_0.finish_id,
+        v1_0.height,
+        v1_0.image_url,
+        v1_0.is_active,
+        v1_0.is_in_stock,
+        v1_0.material_id,
+        v1_0.price,
+        v1_0.sku,
+        v1_0.stock_quantity,
+        v1_0.variant_name,
+        v1_0.weight_kg,
+        v1_0.width 
+    from
+        product_variants v1_0 
+    where
+        v1_0.product_id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/products/slug/classic-wrought-iron-gate
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/products/slug/classic-wrought-iron-gate
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/products/slug/classic-wrought-iron-gate
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        p1_0.id,
+        p1_0.average_rating,
+        p1_0.base_price,
+        p1_0.cad_drawing_url,
+        p1_0.category_id,
+        p1_0.created_at,
+        p1_0.default_depth,
+        p1_0.default_finish_id,
+        p1_0.default_height,
+        p1_0.default_material_id,
+        p1_0.default_width,
+        p1_0.is_active,
+        p1_0.is_best_seller,
+        p1_0.is_custom_size_available,
+        p1_0.is_customizable,
+        p1_0.is_featured,
+        p1_0.is_in_stock,
+        p1_0.is_made_to_order,
+        p1_0.is_new,
+        p1_0.is_weight_calculated,
+        p1_0.lead_time_days,
+        p1_0.long_description,
+        p1_0.main_image_url,
+        p1_0.max_depth,
+        p1_0.max_height,
+        p1_0.max_width,
+        p1_0.min_depth,
+        p1_0.min_height,
+        p1_0.min_width,
+        p1_0.name,
+        p1_0.order_count,
+        p1_0.short_description,
+        p1_0.sketch_url,
+        p1_0.slug,
+        p1_0.stock_quantity,
+        p1_0.thumbnail_url,
+        p1_0.total_ratings,
+        p1_0.total_reviews,
+        p1_0.unit,
+        p1_0.updated_at,
+        p1_0.video_url,
+        p1_0.view_count,
+        p1_0.weight_kg 
+    from
+        products p1_0 
+    where
+        p1_0.slug=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.display_order,
+        c1_0.icon_url,
+        c1_0.image_url,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.parent_id,
+        c1_0.slug,
+        c1_0.updated_at 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        m1_0.id,
+        m1_0.code,
+        m1_0.created_at,
+        m1_0.description,
+        m1_0.is_active,
+        m1_0.name,
+        m1_0.price_multiplier,
+        m1_0.unit,
+        m1_0.updated_at 
+    from
+        materials m1_0 
+    where
+        m1_0.id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.code,
+        f1_0.color_options,
+        f1_0.created_at,
+        f1_0.description,
+        f1_0.is_active,
+        f1_0.name,
+        f1_0.price_per_sqft,
+        f1_0.updated_at 
+    from
+        finishes f1_0 
+    where
+        f1_0.id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.product_id,
+        i1_0.id,
+        i1_0.alt_text,
+        i1_0.display_order,
+        i1_0.image_type,
+        i1_0.image_url,
+        i1_0.is_primary 
+    from
+        product_images i1_0 
+    where
+        i1_0.product_id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        v1_0.product_id,
+        v1_0.id,
+        v1_0.depth,
+        v1_0.finish_id,
+        v1_0.height,
+        v1_0.image_url,
+        v1_0.is_active,
+        v1_0.is_in_stock,
+        v1_0.material_id,
+        v1_0.price,
+        v1_0.sku,
+        v1_0.stock_quantity,
+        v1_0.variant_name,
+        v1_0.weight_kg,
+        v1_0.width 
+    from
+        product_variants v1_0 
+    where
+        v1_0.product_id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    /* update
+        for com.lohari.model.Product */update products 
+    set
+        average_rating=?,
+        base_price=?,
+        cad_drawing_url=?,
+        category_id=?,
+        default_depth=?,
+        default_finish_id=?,
+        default_height=?,
+        default_material_id=?,
+        default_width=?,
+        is_active=?,
+        is_best_seller=?,
+        is_custom_size_available=?,
+        is_customizable=?,
+        is_featured=?,
+        is_in_stock=?,
+        is_made_to_order=?,
+        is_new=?,
+        is_weight_calculated=?,
+        lead_time_days=?,
+        long_description=?,
+        main_image_url=?,
+        max_depth=?,
+        max_height=?,
+        max_width=?,
+        min_depth=?,
+        min_height=?,
+        min_width=?,
+        name=?,
+        order_count=?,
+        short_description=?,
+        sketch_url=?,
+        slug=?,
+        stock_quantity=?,
+        thumbnail_url=?,
+        total_ratings=?,
+        total_reviews=?,
+        unit=?,
+        updated_at=?,
+        video_url=?,
+        view_count=?,
+        weight_kg=? 
+    where
+        id=?
+2026-09-02 11:52:21 [http-nio-8081-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/reviews/product/1
+2026-09-02 11:52:21 [http-nio-8081-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/reviews/product/1
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/reviews/product/1
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/reviews/product/1
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        r1_0.id,
+        r1_0.comment,
+        r1_0.created_at,
+        r1_0.is_approved,
+        r1_0.is_verified_purchase,
+        r1_0.order_id,
+        r1_0.product_id,
+        r1_0.rating,
+        r1_0.title,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        reviews r1_0 
+    left join
+        products p1_0 
+            on p1_0.id=r1_0.product_id 
+    where
+        p1_0.id=? 
+        and r1_0.is_approved 
+    order by
+        r1_0.created_at desc
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        AVG(r.rating) 
+    FROM
+        Review r 
+    WHERE
+        r.product.id = :productId 
+        AND r.isApproved = true */ select
+            avg(r1_0.rating) 
+        from
+            reviews r1_0 
+        where
+            r1_0.product_id=? 
+            and r1_0.is_approved=true
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        COUNT(r) 
+    FROM
+        Review r 
+    WHERE
+        r.product.id = :productId 
+        AND r.isApproved = true */ select
+            count(r1_0.id) 
+        from
+            reviews r1_0 
+        where
+            r1_0.product_id=? 
+            and r1_0.is_approved=true
+2026-09-02 11:52:21 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        r.rating,
+        COUNT(r) 
+    FROM
+        Review r 
+    WHERE
+        r.product.id = :productId 
+        AND r.isApproved = true 
+    GROUP BY
+        r.rating */ select
+            r1_0.rating,
+            count(r1_0.id) 
+        from
+            reviews r1_0 
+        where
+            r1_0.product_id=? 
+            and r1_0.is_approved=true 
+        group by
+            r1_0.rating
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/reviews/product/1
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/reviews/product/1
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        r1_0.id,
+        r1_0.comment,
+        r1_0.created_at,
+        r1_0.is_approved,
+        r1_0.is_verified_purchase,
+        r1_0.order_id,
+        r1_0.product_id,
+        r1_0.rating,
+        r1_0.title,
+        r1_0.updated_at,
+        r1_0.user_id 
+    from
+        reviews r1_0 
+    left join
+        products p1_0 
+            on p1_0.id=r1_0.product_id 
+    where
+        p1_0.id=? 
+        and r1_0.is_approved 
+    order by
+        r1_0.created_at desc
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        AVG(r.rating) 
+    FROM
+        Review r 
+    WHERE
+        r.product.id = :productId 
+        AND r.isApproved = true */ select
+            avg(r1_0.rating) 
+        from
+            reviews r1_0 
+        where
+            r1_0.product_id=? 
+            and r1_0.is_approved=true
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        COUNT(r) 
+    FROM
+        Review r 
+    WHERE
+        r.product.id = :productId 
+        AND r.isApproved = true */ select
+            count(r1_0.id) 
+        from
+            reviews r1_0 
+        where
+            r1_0.product_id=? 
+            and r1_0.is_approved=true
+2026-09-02 11:52:21 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        r.rating,
+        COUNT(r) 
+    FROM
+        Review r 
+    WHERE
+        r.product.id = :productId 
+        AND r.isApproved = true 
+    GROUP BY
+        r.rating */ select
+            r1_0.rating,
+            count(r1_0.id) 
+        from
+            reviews r1_0 
+        where
+            r1_0.product_id=? 
+            and r1_0.is_approved=true 
+        group by
+            r1_0.rating
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/reviews
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/reviews
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/reviews
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.password_hash,
+        u1_0.phone,
+        u1_0.profile_picture,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        r1_0.id 
+    from
+        reviews r1_0 
+    left join
+        users u1_0 
+            on u1_0.id=r1_0.user_id 
+    left join
+        products p1_0 
+            on p1_0.id=r1_0.product_id 
+    where
+        u1_0.id=? 
+        and p1_0.id=? 
+    fetch
+        first ? rows only
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.average_rating,
+        p1_0.base_price,
+        p1_0.cad_drawing_url,
+        p1_0.category_id,
+        p1_0.created_at,
+        p1_0.default_depth,
+        p1_0.default_finish_id,
+        p1_0.default_height,
+        p1_0.default_material_id,
+        p1_0.default_width,
+        p1_0.is_active,
+        p1_0.is_best_seller,
+        p1_0.is_custom_size_available,
+        p1_0.is_customizable,
+        p1_0.is_featured,
+        p1_0.is_in_stock,
+        p1_0.is_made_to_order,
+        p1_0.is_new,
+        p1_0.is_weight_calculated,
+        p1_0.lead_time_days,
+        p1_0.long_description,
+        p1_0.main_image_url,
+        p1_0.max_depth,
+        p1_0.max_height,
+        p1_0.max_width,
+        p1_0.min_depth,
+        p1_0.min_height,
+        p1_0.min_width,
+        p1_0.name,
+        p1_0.order_count,
+        p1_0.short_description,
+        p1_0.sketch_url,
+        p1_0.slug,
+        p1_0.stock_quantity,
+        p1_0.thumbnail_url,
+        p1_0.total_ratings,
+        p1_0.total_reviews,
+        p1_0.unit,
+        p1_0.updated_at,
+        p1_0.video_url,
+        p1_0.view_count,
+        p1_0.weight_kg 
+    from
+        products p1_0 
+    where
+        p1_0.id=?
+2026-09-02 11:53:08 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.lohari.model.Review */insert 
+    into
+        reviews (comment, created_at, is_approved, is_verified_purchase, order_id, product_id, rating, title, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-02 12:19:57 [RMI TCP Connection(64)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2026-09-02 12:19:57 [RMI TCP Connection(64)-127.0.0.1] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-09-02 12:19:58 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-09-02 12:19:58 [RMI TCP Connection(64)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 12:19:58 [RMI TCP Connection(64)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2026-09-02 12:19:58 [RMI TCP Connection(64)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.

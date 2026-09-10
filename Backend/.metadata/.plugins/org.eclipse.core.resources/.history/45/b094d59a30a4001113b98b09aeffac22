@@ -1,0 +1,5 @@
+package com.lohari.config;
+
+public class RazorpayConfig {
+
+}
