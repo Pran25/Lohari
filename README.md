@@ -1,6 +1,6 @@
 # 🏭 Lohari Fabrication Store
-
-A modern full-stack fabrication business management and customer-facing web application built using **Java, Spring Boot, ReactJS, MySQL, and Microservices Architecture**.
+c
+A modern full-stack fabrication business management and customer-facing web application built using **Java, Spring Boot, ReactJS, MySQL, and Monolithic Architecture**.
 
 The platform provides product management, customer interactions, order processing, payment integration, team management, Google OAuth2 authentication, and an AI-powered assistant to improve the customer experience.
 
@@ -10,7 +10,7 @@ The platform provides product management, customer interactions, order processin
 
 **Lohari Fabrication Store** is designed to digitize and simplify the operations of a fabrication business.
 
-The application follows a **microservices-based architecture**, where individual business capabilities are separated into independent Spring Boot services. A ReactJS frontend communicates with the backend through an API Gateway.
+The application follows a **monolithic-based architecture**, where individual business capabilities are separated into independent Spring Boot services. A ReactJS frontend communicates with the backend through an API Gateway.
 
 ### Key objectives
 
