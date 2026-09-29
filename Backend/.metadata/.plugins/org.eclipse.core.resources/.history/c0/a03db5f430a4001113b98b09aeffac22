@@ -1,5 +1,0 @@
-package com.lohari.repository;
-
-public interface PaymentRepository {
-
-}
