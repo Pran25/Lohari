@@ -2,6 +2,7 @@ package com.lohari.controller;
 
 
 import com.lohari.dto.DashboardStatsResponse;
+import com.lohari.dto.ManualDiscountRequest;
 import com.lohari.dto.OrderCreateRequest;
 import com.lohari.dto.OrderResponse;
 import com.lohari.dto.OrderStatusUpdateRequest;
@@ -148,14 +149,27 @@ public class OrderController {
         return ResponseEntity.ok(orderService.updateOrderStatus(id, status, location, description));
     }
 
-    // 14. DELETE ORDER (Admin)
+    // 14. APPLY MANUAL DISCOUNT (Admin) — ✅ NEW
+    @PutMapping("/admin/{id}/discount")
+    public ResponseEntity<OrderResponse> applyManualDiscount(
+            @PathVariable Long id,
+            @Valid @RequestBody ManualDiscountRequest request) {
+        OrderResponse response = orderService.applyManualDiscount(
+            id,
+            request.getDiscountAmount(),
+            request.getReason()
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    // 15. DELETE ORDER (Admin)
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 
-    // 15. BULK UPDATE STATUS (Admin)
+    // 16. BULK UPDATE STATUS (Admin)
     @PutMapping("/admin/bulk-status")
     public ResponseEntity<Void> bulkUpdateStatus(
             @RequestParam List<Long> ids,
@@ -164,21 +178,21 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    // 16. BULK DELETE (Admin)
+    // 17. BULK DELETE (Admin)
     @DeleteMapping("/admin/bulk")
     public ResponseEntity<Void> bulkDelete(@RequestParam List<Long> ids) {
         orderService.bulkDeleteOrders(ids);
         return ResponseEntity.noContent().build();
     }
 
-    // 17. GET RECENT ORDERS (Admin)
+    // 18. GET RECENT ORDERS (Admin)
     @GetMapping("/admin/recent")
     public ResponseEntity<List<OrderResponse>> getRecentOrders(
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(orderService.getRecentOrders(limit));
     }
 
-    // 18. GET ORDERS BY DATE RANGE (Admin)
+    // 19. GET ORDERS BY DATE RANGE (Admin)
     @GetMapping("/admin/date-range")
     public ResponseEntity<List<OrderResponse>> getOrdersByDateRange(
             @RequestParam String start,
@@ -193,76 +207,76 @@ public class OrderController {
     // ADMIN DASHBOARD ENDPOINTS
     // ============================================================
 
-    // 19. DASHBOARD STATS
+    // 20. DASHBOARD STATS
     @GetMapping("/admin/dashboard")
     public ResponseEntity<DashboardStatsResponse> getDashboardStats() {
         return ResponseEntity.ok(orderService.getDashboardStats());
     }
 
-    // 20. TOTAL REVENUE
+    // 21. TOTAL REVENUE
     @GetMapping("/admin/revenue/total")
     public ResponseEntity<Double> getTotalRevenue() {
         return ResponseEntity.ok(orderService.getTotalRevenue());
     }
 
-    // 21. TODAY REVENUE
+    // 22. TODAY REVENUE
     @GetMapping("/admin/revenue/today")
     public ResponseEntity<Double> getTodayRevenue() {
         return ResponseEntity.ok(orderService.getTodayRevenue());
     }
 
-    // 22. THIS MONTH REVENUE
+    // 23. THIS MONTH REVENUE
     @GetMapping("/admin/revenue/monthly")
     public ResponseEntity<Double> getThisMonthRevenue() {
         return ResponseEntity.ok(orderService.getThisMonthRevenue());
     }
 
-    // 23. THIS YEAR REVENUE
+    // 24. THIS YEAR REVENUE
     @GetMapping("/admin/revenue/yearly")
     public ResponseEntity<Double> getThisYearRevenue() {
         return ResponseEntity.ok(orderService.getThisYearRevenue());
     }
 
-    // 24. AVERAGE ORDER VALUE
+    // 25. AVERAGE ORDER VALUE
     @GetMapping("/admin/revenue/average")
     public ResponseEntity<Double> getAverageOrderValue() {
         return ResponseEntity.ok(orderService.getAverageOrderValue());
     }
 
-    // 25. REVENUE BREAKDOWN
+    // 26. REVENUE BREAKDOWN
     @GetMapping("/admin/revenue/breakdown")
     public ResponseEntity<Map<String, Double>> getRevenueBreakdown(
             @RequestParam(defaultValue = "6") int months) {
         return ResponseEntity.ok(orderService.getRevenueBreakdown(months));
     }
 
-    // 26. ORDERS TREND
+    // 27. ORDERS TREND
     @GetMapping("/admin/trend")
     public ResponseEntity<Map<String, Long>> getOrdersTrend(
             @RequestParam(defaultValue = "30") int days) {
         return ResponseEntity.ok(orderService.getOrdersTrend(days));
     }
 
-    // 27. ORDERS BY STATUS COUNT
+    // 28. ORDERS BY STATUS COUNT
     @GetMapping("/admin/status-count")
     public ResponseEntity<Map<String, Long>> getOrdersCountByStatus() {
         return ResponseEntity.ok(orderService.getOrdersCountByStatus());
     }
 
-    // 28. TOP SELLING PRODUCTS
+    // 29. TOP SELLING PRODUCTS
     @GetMapping("/admin/top-products")
     public ResponseEntity<List<Map<String, Object>>> getTopSellingProducts(
             @RequestParam(defaultValue = "5") int limit) {
         return ResponseEntity.ok(orderService.getTopSellingProducts(limit));
     }
 
-    // 29. TOTAL ORDERS COUNT
+    // 30. TOTAL ORDERS COUNT
     @GetMapping("/admin/count")
     public ResponseEntity<Long> getTotalOrdersCount() {
         return ResponseEntity.ok(orderService.getTotalOrdersCount());
     }
 
-    // 30. ACTIVE ORDERS COUNT
+    // 31. ACTIVE ORDERS COUNT
     @GetMapping("/admin/active-count")
     public ResponseEntity<Long> getActiveOrdersCount() {
         return ResponseEntity.ok(orderService.getActiveOrdersCount());

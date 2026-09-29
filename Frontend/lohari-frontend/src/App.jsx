@@ -23,8 +23,13 @@ import OrderDetail from './pages/OrderDetail'
 import Checkout from './pages/Checkout'
 import Cart from './pages/Cart'
 import CustomizationEngine from './pages/CustomizationEngine'
-import PaymentPage from './pages/PaymentPage'  // ✅ ADD THIS
- 
+import PaymentPage from './pages/PaymentPage'
+
+// ✅ Analytics
+import AnalyticsDashboard from './pages/AnalyticsDashboard'
+
+// ✅ AI Assistant (RAG)
+import RagChat from './pages/RagChat'
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -33,6 +38,7 @@ import AdminOrders from './pages/admin/AdminOrders'
 import AdminCategories from './pages/admin/AdminCategories'
 import AdminUsers from './pages/admin/AdminUsers'
 import AdminInquiries from './pages/admin/AdminInquiries'
+import AdminCoupons from './pages/admin/AdminCoupons'   // ✅ ADDED
 
 // ✅ Component for offline detection
 const OfflineHandler = () => {
@@ -46,7 +52,6 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <div className="min-h-screen flex flex-col">
-            {/* ✅ Add offline handler */}
             <OfflineHandler />
             <Navbar />
             <main className="flex-grow pt-20">
@@ -63,39 +68,38 @@ function App() {
 
                 {/* Protected Routes */}
                 <Route path="/profile" element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
+                  <ProtectedRoute><Profile /></ProtectedRoute>
                 } />
                 <Route path="/orders" element={
-                  <ProtectedRoute>
-                    <Orders />
-                  </ProtectedRoute>
+                  <ProtectedRoute><Orders /></ProtectedRoute>
                 } />
                 <Route path="/orders/:id" element={
-                  <ProtectedRoute>
-                    <OrderDetail />
-                  </ProtectedRoute>
+                  <ProtectedRoute><OrderDetail /></ProtectedRoute>
                 } />
                 <Route path="/checkout" element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
+                  <ProtectedRoute><Checkout /></ProtectedRoute>
                 } />
                 <Route path="/cart" element={
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
+                  <ProtectedRoute><Cart /></ProtectedRoute>
                 } />
                 <Route path="/customize/:productId" element={
-                  <ProtectedRoute>
-                    <CustomizationEngine />
+                  <ProtectedRoute><CustomizationEngine /></ProtectedRoute>
+                } />
+                <Route path="/payment" element={
+                  <ProtectedRoute><PaymentPage /></ProtectedRoute>
+                } />
+
+                {/* ✅ Analytics Route (Admin Only) */}
+                <Route path="/analytics" element={
+                  <ProtectedRoute adminOnly>
+                    <AnalyticsDashboard />
                   </ProtectedRoute>
                 } />
-                {/* ✅ PAYMENT ROUTE */}
-                <Route path="/payment" element={
-                  <ProtectedRoute>
-                    <PaymentPage />
+
+                {/* ✅ AI Assistant Route (Admin Only) */}
+                <Route path="/ai-assistant" element={
+                  <ProtectedRoute adminOnly>
+                    <RagChat />
                   </ProtectedRoute>
                 } />
 
@@ -112,6 +116,7 @@ function App() {
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="users" element={<AdminUsers />} />
                   <Route path="inquiries" element={<AdminInquiries />} />
+                  <Route path="coupons" element={<AdminCoupons />} />   {/* ✅ ADDED */}
                 </Route>
               </Routes>
             </main>

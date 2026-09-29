@@ -17,8 +17,6 @@ public class OrderCreateRequest {
     private String customerEmail;
 
     @NotBlank(message = "Phone is required")
-    // ✅ TEMPORARILY REMOVED - Allow any phone number for testing
-    // @Pattern(regexp = "^[0-9]{10}$", message = "Phone must be 10 digits")
     private String customerPhone;
 
     // ========== ADDRESS ==========
@@ -35,8 +33,6 @@ public class OrderCreateRequest {
     private String state;
 
     @NotBlank(message = "Pincode is required")
-    // ✅ TEMPORARILY REMOVED - Allow any pincode for testing
-    // @Pattern(regexp = "^[0-9]{6}$", message = "Pincode must be 6 digits")
     private String pincode;
 
     private String country = "India";
@@ -77,6 +73,13 @@ public class OrderCreateRequest {
     @DecimalMin(value = "0.0", message = "Advance percent must be positive")
     @DecimalMax(value = "100.0", message = "Advance percent cannot exceed 100")
     private BigDecimal advancePercent = BigDecimal.valueOf(30);
+
+    // ========== COUPON / DISCOUNT (NEW) ==========
+
+    private String couponCode;
+
+    @DecimalMin(value = "0.0", message = "Discount cannot be negative")
+    private BigDecimal discountAmount;
 
     // ========== NOTES ==========
 
@@ -156,6 +159,14 @@ public class OrderCreateRequest {
 
     public BigDecimal getAdvancePercent() { return advancePercent; }
     public void setAdvancePercent(BigDecimal advancePercent) { this.advancePercent = advancePercent; }
+
+    // ========== COUPON GETTERS/SETTERS (NEW) ==========
+
+    public String getCouponCode() { return couponCode; }
+    public void setCouponCode(String couponCode) { this.couponCode = couponCode; }
+
+    public BigDecimal getDiscountAmount() { return discountAmount; }
+    public void setDiscountAmount(BigDecimal discountAmount) { this.discountAmount = discountAmount; }
 
     public String getCustomerNotes() { return customerNotes; }
     public void setCustomerNotes(String customerNotes) { this.customerNotes = customerNotes; }

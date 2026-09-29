@@ -8,6 +8,7 @@ import com.lohari.dto.ProductSearchRequest;
 import com.lohari.dto.ProductUpdateRequest;
 import com.lohari.model.*;
 import com.lohari.repository.*;
+import com.lohari.service.DataIngestionService;
 import com.lohari.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -42,6 +43,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private FinishRepository finishRepository;
+
+    @Autowired
+    private DataIngestionService dataIngestionService;
 
     // ============================================================
     // CREATE
@@ -92,6 +96,17 @@ public class ProductServiceImpl implements ProductService {
         product.setIsCustomSizeAvailable(request.getIsCustomSizeAvailable());
         product.setWeightKg(request.getWeightKg());
         product.setIsWeightCalculated(request.getIsWeightCalculated());
+
+        // ========== QUOTATION SETTINGS (NEW) ==========
+        if (request.getDefaultRatePerKg() != null) product.setDefaultRatePerKg(request.getDefaultRatePerKg());
+        if (request.getDefaultLabourCharges() != null) product.setDefaultLabourCharges(request.getDefaultLabourCharges());
+        if (request.getDefaultDesignCharges() != null) product.setDefaultDesignCharges(request.getDefaultDesignCharges());
+        if (request.getDefaultTransportCharges() != null) product.setDefaultTransportCharges(request.getDefaultTransportCharges());
+        if (request.getDefaultProfitPercent() != null) product.setDefaultProfitPercent(request.getDefaultProfitPercent());
+        if (request.getDefaultGstPercent() != null) product.setDefaultGstPercent(request.getDefaultGstPercent());
+        if (request.getDefaultAdvancePercent() != null) product.setDefaultAdvancePercent(request.getDefaultAdvancePercent());
+        if (request.getDefaultValidityDays() != null) product.setDefaultValidityDays(request.getDefaultValidityDays());
+
         product.setIsActive(request.getIsActive() != null ? request.getIsActive() : true);
         product.setIsFeatured(request.getIsFeatured() != null ? request.getIsFeatured() : false);
         product.setIsNew(request.getIsNew() != null ? request.getIsNew() : false);
@@ -112,6 +127,14 @@ public class ProductServiceImpl implements ProductService {
 
         Product saved = productRepository.save(product);
         log.info("Product created with id: {}", saved.getId());
+
+        // AUTO-SYNC to vector store
+        try {
+            dataIngestionService.ingestProduct(saved);
+            log.info("✅ Vector sync done for product: {}", saved.getName());
+        } catch (Exception e) {
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
 
         return mapToResponse(saved);
     }
@@ -151,6 +174,17 @@ public class ProductServiceImpl implements ProductService {
         if (request.getIsCustomSizeAvailable() != null) product.setIsCustomSizeAvailable(request.getIsCustomSizeAvailable());
         if (request.getWeightKg() != null) product.setWeightKg(request.getWeightKg());
         if (request.getIsWeightCalculated() != null) product.setIsWeightCalculated(request.getIsWeightCalculated());
+
+        // ========== QUOTATION SETTINGS (NEW) ==========
+        if (request.getDefaultRatePerKg() != null) product.setDefaultRatePerKg(request.getDefaultRatePerKg());
+        if (request.getDefaultLabourCharges() != null) product.setDefaultLabourCharges(request.getDefaultLabourCharges());
+        if (request.getDefaultDesignCharges() != null) product.setDefaultDesignCharges(request.getDefaultDesignCharges());
+        if (request.getDefaultTransportCharges() != null) product.setDefaultTransportCharges(request.getDefaultTransportCharges());
+        if (request.getDefaultProfitPercent() != null) product.setDefaultProfitPercent(request.getDefaultProfitPercent());
+        if (request.getDefaultGstPercent() != null) product.setDefaultGstPercent(request.getDefaultGstPercent());
+        if (request.getDefaultAdvancePercent() != null) product.setDefaultAdvancePercent(request.getDefaultAdvancePercent());
+        if (request.getDefaultValidityDays() != null) product.setDefaultValidityDays(request.getDefaultValidityDays());
+
         if (request.getIsActive() != null) product.setIsActive(request.getIsActive());
         if (request.getIsFeatured() != null) product.setIsFeatured(request.getIsFeatured());
         if (request.getIsNew() != null) product.setIsNew(request.getIsNew());
@@ -187,6 +221,14 @@ public class ProductServiceImpl implements ProductService {
         Product updated = productRepository.save(product);
         log.info("Product updated with id: {}", updated.getId());
 
+        // AUTO-SYNC to vector store
+        try {
+            dataIngestionService.ingestProduct(updated);
+            log.info("✅ Vector sync done for product: {}", updated.getName());
+        } catch (Exception e) {
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
+
         return mapToResponse(updated);
     }
 
@@ -200,6 +242,9 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityNotFoundException("Product not found: " + id);
         }
         log.info("Deleting product with id: {}", id);
+
+        dataIngestionService.deleteProductFromVectorStore(id);
+
         productRepository.deleteById(id);
     }
 
@@ -420,6 +465,17 @@ public class ProductServiceImpl implements ProductService {
         response.setIsCustomSizeAvailable(product.getIsCustomSizeAvailable());
         response.setWeightKg(product.getWeightKg());
         response.setIsWeightCalculated(product.getIsWeightCalculated());
+
+        // ========== QUOTATION SETTINGS (NEW) ==========
+        response.setDefaultRatePerKg(product.getDefaultRatePerKg());
+        response.setDefaultLabourCharges(product.getDefaultLabourCharges());
+        response.setDefaultDesignCharges(product.getDefaultDesignCharges());
+        response.setDefaultTransportCharges(product.getDefaultTransportCharges());
+        response.setDefaultProfitPercent(product.getDefaultProfitPercent());
+        response.setDefaultGstPercent(product.getDefaultGstPercent());
+        response.setDefaultAdvancePercent(product.getDefaultAdvancePercent());
+        response.setDefaultValidityDays(product.getDefaultValidityDays());
+
         response.setIsActive(product.getIsActive());
         response.setIsFeatured(product.getIsFeatured());
         response.setIsNew(product.getIsNew());

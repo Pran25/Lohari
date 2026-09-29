@@ -42,7 +42,13 @@ public class SecurityConfig {
                     "/api/materials/**",
                     "/api/finishes/**",
                     "/api/orders/**",
-                    "/api/admin/**",     
+                    "/api/admin/**",
+                    "/api/analytics/**",
+                    "/api/public/**", 
+                    "/api/invoices/**",
+                    "/api/quotations/**", 
+                    "/api/coupons/**",  
+                    "/api/rag/**",              // ✅ ADDED — RAG endpoints
                     "/oauth2/**",
                     "/login/**",
                     "/error"

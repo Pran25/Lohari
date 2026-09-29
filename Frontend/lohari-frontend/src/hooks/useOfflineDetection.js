@@ -1,9 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 
 export const useOfflineDetection = () => {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()  // ✅ Get user instead of isAuthenticated
   const [isOnline, setIsOnline] = useState(navigator.onLine)
+  
+  // ✅ Use ref to store logout function
+  const logoutRef = useRef(logout)
+
+  useEffect(() => {
+    logoutRef.current = logout
+  }, [logout])
 
   useEffect(() => {
     const handleOnline = () => {
@@ -13,35 +20,35 @@ export const useOfflineDetection = () => {
 
     const handleOffline = () => {
       setIsOnline(false)
-      console.log('🔴 User is offline - Logging out...')
+      console.log('🔴 User is offline')
       
-      // ✅ Auto logout when offline
-      logout()
-      
-      // ✅ Show alert
-      alert('⚠️ You are offline. Please check your internet connection and login again.')
+      // ✅ Check if user is logged in
+      if (user) {
+        console.log('🔴 User logged in, calling logout...')
+        logoutRef.current()
+        alert('⚠️ You are offline. Please login again.')
+      }
     }
 
-    // ✅ Add event listeners
     window.addEventListener('online', handleOnline)
     window.addEventListener('offline', handleOffline)
 
-    // ✅ Check periodically (every 10 seconds)
+    // ✅ Periodic check every 5 seconds
     const interval = setInterval(() => {
-      if (!navigator.onLine && isOnline) {
+      if (!navigator.onLine && user) {
+        console.log('🔴 Periodic check: Offline + logged in')
         setIsOnline(false)
-        logout()
-        alert('⚠️ You are offline. Please check your internet connection and login again.')
+        logoutRef.current()
+        alert('⚠️ You are offline. Please login again.')
       }
-    }, 10000)
+    }, 5000)
 
-    // ✅ Cleanup
     return () => {
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
       clearInterval(interval)
     }
-  }, [logout, isOnline])
+  }, [user])  // ✅ Only depends on user
 
   return { isOnline }
 }

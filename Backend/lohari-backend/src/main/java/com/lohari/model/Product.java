@@ -72,6 +72,32 @@ public class Product {
     @Column(name = "is_weight_calculated")
     private Boolean isWeightCalculated = false;
 
+    // ========== QUOTATION SETTINGS (NEW) ==========
+
+    @Column(name = "default_rate_per_kg", precision = 10, scale = 2)
+    private BigDecimal defaultRatePerKg = BigDecimal.valueOf(100);
+
+    @Column(name = "default_labour_charges", precision = 10, scale = 2)
+    private BigDecimal defaultLabourCharges = BigDecimal.valueOf(2000);
+
+    @Column(name = "default_design_charges", precision = 10, scale = 2)
+    private BigDecimal defaultDesignCharges = BigDecimal.valueOf(500);
+
+    @Column(name = "default_transport_charges", precision = 10, scale = 2)
+    private BigDecimal defaultTransportCharges = BigDecimal.ZERO;
+
+    @Column(name = "default_profit_percent", precision = 5, scale = 2)
+    private BigDecimal defaultProfitPercent = BigDecimal.valueOf(15);
+
+    @Column(name = "default_gst_percent", precision = 5, scale = 2)
+    private BigDecimal defaultGstPercent = BigDecimal.valueOf(18);
+
+    @Column(name = "default_advance_percent", precision = 5, scale = 2)
+    private BigDecimal defaultAdvancePercent = BigDecimal.valueOf(30);
+
+    @Column(name = "default_validity_days")
+    private Integer defaultValidityDays = 15;
+
     // ========== STATUS ==========
 
     @Column(name = "is_active")
@@ -237,6 +263,34 @@ public class Product {
 
     public Boolean getIsWeightCalculated() { return isWeightCalculated; }
     public void setIsWeightCalculated(Boolean isWeightCalculated) { this.isWeightCalculated = isWeightCalculated; }
+
+    // ========== QUOTATION SETTINGS GETTERS/SETTERS (NEW) ==========
+
+    public BigDecimal getDefaultRatePerKg() { return defaultRatePerKg; }
+    public void setDefaultRatePerKg(BigDecimal defaultRatePerKg) { this.defaultRatePerKg = defaultRatePerKg; }
+
+    public BigDecimal getDefaultLabourCharges() { return defaultLabourCharges; }
+    public void setDefaultLabourCharges(BigDecimal defaultLabourCharges) { this.defaultLabourCharges = defaultLabourCharges; }
+
+    public BigDecimal getDefaultDesignCharges() { return defaultDesignCharges; }
+    public void setDefaultDesignCharges(BigDecimal defaultDesignCharges) { this.defaultDesignCharges = defaultDesignCharges; }
+
+    public BigDecimal getDefaultTransportCharges() { return defaultTransportCharges; }
+    public void setDefaultTransportCharges(BigDecimal defaultTransportCharges) { this.defaultTransportCharges = defaultTransportCharges; }
+
+    public BigDecimal getDefaultProfitPercent() { return defaultProfitPercent; }
+    public void setDefaultProfitPercent(BigDecimal defaultProfitPercent) { this.defaultProfitPercent = defaultProfitPercent; }
+
+    public BigDecimal getDefaultGstPercent() { return defaultGstPercent; }
+    public void setDefaultGstPercent(BigDecimal defaultGstPercent) { this.defaultGstPercent = defaultGstPercent; }
+
+    public BigDecimal getDefaultAdvancePercent() { return defaultAdvancePercent; }
+    public void setDefaultAdvancePercent(BigDecimal defaultAdvancePercent) { this.defaultAdvancePercent = defaultAdvancePercent; }
+
+    public Integer getDefaultValidityDays() { return defaultValidityDays; }
+    public void setDefaultValidityDays(Integer defaultValidityDays) { this.defaultValidityDays = defaultValidityDays; }
+
+    // ========== STATUS GETTERS/SETTERS ==========
 
     public Boolean getIsActive() { return isActive; }
     public void setIsActive(Boolean isActive) { this.isActive = isActive; }

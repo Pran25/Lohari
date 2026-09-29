@@ -26,6 +26,15 @@ public class OrderResponse {
     private BigDecimal advanceAmount;
     private BigDecimal balanceAmount;
 
+    // ========== COUPON / DISCOUNT ==========
+    private String couponCode;
+    private BigDecimal discountAmount;
+    private BigDecimal originalAmount;
+
+    // ========== MANUAL DISCOUNT (Admin) — NEW ==========
+    private BigDecimal manualDiscount;
+    private String discountReason;
+
     private String status;
     private String statusDescription;
 
@@ -147,6 +156,25 @@ public class OrderResponse {
 
     public BigDecimal getBalanceAmount() { return balanceAmount; }
     public void setBalanceAmount(BigDecimal balanceAmount) { this.balanceAmount = balanceAmount; }
+
+    // ========== COUPON GETTERS/SETTERS ==========
+
+    public String getCouponCode() { return couponCode; }
+    public void setCouponCode(String couponCode) { this.couponCode = couponCode; }
+
+    public BigDecimal getDiscountAmount() { return discountAmount; }
+    public void setDiscountAmount(BigDecimal discountAmount) { this.discountAmount = discountAmount; }
+
+    public BigDecimal getOriginalAmount() { return originalAmount; }
+    public void setOriginalAmount(BigDecimal originalAmount) { this.originalAmount = originalAmount; }
+
+    // ========== MANUAL DISCOUNT GETTERS/SETTERS (NEW) ==========
+
+    public BigDecimal getManualDiscount() { return manualDiscount; }
+    public void setManualDiscount(BigDecimal manualDiscount) { this.manualDiscount = manualDiscount; }
+
+    public String getDiscountReason() { return discountReason; }
+    public void setDiscountReason(String discountReason) { this.discountReason = discountReason; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

@@ -9,6 +9,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +29,14 @@ public class PaymentService {
     @Autowired
     private OrderRepository orderRepository;
 
+    // ✅ ADD THIS — Config se Razorpay Key ID lo
+    @Value("${razorpay.key.id}")
+    private String razorpayKeyId;
+
     // ✅ Create Razorpay Order
     @Transactional
     public Map<String, Object> createRazorpayOrder(Long orderId, Double amount) throws RazorpayException {
-        
+
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
@@ -62,7 +67,7 @@ public class PaymentService {
         response.put("amount", amount);
         response.put("currency", "INR");
         response.put("orderId", orderId);
-        response.put("keyId", "YOUR_RAZORPAY_KEY_ID"); // ✅ Replace with actual key
+        response.put("keyId", razorpayKeyId); // ✅ FIXED — Config se aa rahi hai
 
         return response;
     }
@@ -70,7 +75,7 @@ public class PaymentService {
     // ✅ Verify Payment
     @Transactional
     public Map<String, Object> verifyPayment(String razorpayOrderId, String razorpayPaymentId, String razorpaySignature) {
-        
+
         // ✅ Find payment
         Payment payment = paymentRepository.findByRazorpayOrderId(razorpayOrderId)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));

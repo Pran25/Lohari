@@ -8,6 +8,7 @@ import com.lohari.dto.OrderTrackingResponse;
 import com.lohari.dto.OrderUpdateRequest;
 import com.lohari.model.*;
 import com.lohari.repository.OrderRepository;
+import com.lohari.service.DataIngestionService;
 import com.lohari.service.EmailService;
 import com.lohari.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
@@ -37,6 +38,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private DataIngestionService dataIngestionService;
+
+    private static final String ADMIN_EMAIL = "lohari.orders@gmail.com";
 
     // ============================================================
     // CREATE
@@ -79,6 +85,30 @@ public class OrderServiceImpl implements OrderService {
 
         order.calculateTotalAmount();
 
+        // ✅ COUPON / DISCOUNT LOGIC (NEW)
+        if (request.getDiscountAmount() != null && request.getDiscountAmount().compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal originalAmount = order.getTotalAmount();
+            BigDecimal discount = request.getDiscountAmount();
+
+            // Ensure discount doesn't exceed total
+            if (discount.compareTo(originalAmount) > 0) {
+                discount = originalAmount;
+            }
+
+            BigDecimal finalAmount = originalAmount.subtract(discount);
+
+            order.setOriginalAmount(originalAmount);
+            order.setDiscountAmount(discount);
+            order.setCouponCode(request.getCouponCode());
+            order.setTotalAmount(finalAmount);
+
+            log.info("Coupon applied: {} — Discount: ₹{} — Final: ₹{}",
+                request.getCouponCode(), discount, finalAmount);
+        } else {
+            order.setDiscountAmount(BigDecimal.ZERO);
+            order.setOriginalAmount(order.getTotalAmount());
+        }
+
         BigDecimal advancePercent = request.getAdvancePercent() != null ? request.getAdvancePercent() : BigDecimal.valueOf(30);
         BigDecimal advance = order.getTotalAmount().multiply(advancePercent).divide(BigDecimal.valueOf(100));
         order.setAdvanceAmount(advance);
@@ -90,10 +120,28 @@ public class OrderServiceImpl implements OrderService {
         Order savedOrder = orderRepository.save(order);
         log.info("Order created with ID: {}, Order Number: {}", savedOrder.getId(), savedOrder.getOrderNumber());
 
+        // ✅ AUTO-SYNC to vector store
+        try {
+            dataIngestionService.ingestOrder(savedOrder);
+            log.info("✅ Vector sync done for order: {}", savedOrder.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
+
+        // ✅ Send confirmation email to CUSTOMER
         try {
             sendOrderConfirmationEmail(savedOrder.getId());
+            log.info("✅ Customer confirmation email sent for order: {}", savedOrder.getOrderNumber());
         } catch (Exception e) {
-            log.error("Failed to send confirmation email for order: {}", savedOrder.getId(), e);
+            log.error("❌ Failed to send customer email: {}", e.getMessage());
+        }
+
+        // ✅ Send notification email to ADMIN
+        try {
+            sendAdminNotificationEmail(savedOrder);
+            log.info("✅ Admin notification email sent for order: {}", savedOrder.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Failed to send admin email: {}", e.getMessage());
         }
 
         return mapToResponse(savedOrder);
@@ -188,6 +236,13 @@ public class OrderServiceImpl implements OrderService {
         Order updatedOrder = orderRepository.save(order);
         log.info("Order updated: {}", updatedOrder.getId());
 
+        try {
+            dataIngestionService.ingestOrder(updatedOrder);
+            log.info("✅ Vector sync done for order: {}", updatedOrder.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
+
         return mapToResponse(updatedOrder);
     }
 
@@ -242,9 +297,103 @@ public class OrderServiceImpl implements OrderService {
         log.info("Order {} status updated to: {}", id, newStatus);
 
         try {
-            sendStatusUpdateEmail(updatedOrder.getId());
+            dataIngestionService.ingestOrder(updatedOrder);
+            log.info("✅ Vector sync done for order: {}", updatedOrder.getOrderNumber());
         } catch (Exception e) {
-            log.error("Failed to send status update email for order: {}", updatedOrder.getId(), e);
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
+
+        try {
+            sendStatusUpdateEmail(updatedOrder.getId());
+            log.info("✅ Status update email sent for order: {}", updatedOrder.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Failed to send status update email: {}", e.getMessage());
+        }
+
+        return mapToResponse(updatedOrder);
+    }
+
+    // ============================================================
+    // ✅ MANUAL DISCOUNT (NEW)
+    // ============================================================
+
+    @Override
+    public OrderResponse applyManualDiscount(Long id, BigDecimal discountAmount, String reason) {
+        log.info("Applying manual discount of ₹{} on order ID: {} — Reason: {}", discountAmount, id, reason);
+
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
+
+        if (order.isDelivered() || order.isCancelled()) {
+            throw new RuntimeException("Cannot apply discount on delivered or cancelled order");
+        }
+
+        if (discountAmount == null || discountAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("Discount amount must be greater than zero");
+        }
+
+        // Base amount = originalAmount (pre-coupon) if available, else current total
+        BigDecimal baseAmount = order.getOriginalAmount() != null
+            ? order.getOriginalAmount()
+            : order.getTotalAmount();
+
+        // Cap discount to base amount
+        BigDecimal effectiveDiscount = discountAmount;
+        if (effectiveDiscount.compareTo(baseAmount) > 0) {
+            effectiveDiscount = baseAmount;
+        }
+
+        // Apply manual discount on top of coupon discount (if any)
+        BigDecimal couponDiscount = order.getDiscountAmount() != null
+            ? order.getDiscountAmount()
+            : BigDecimal.ZERO;
+
+        BigDecimal totalDiscount = couponDiscount.add(effectiveDiscount);
+
+        // Cap total discount to base amount
+        if (totalDiscount.compareTo(baseAmount) > 0) {
+            totalDiscount = baseAmount;
+            effectiveDiscount = totalDiscount.subtract(couponDiscount);
+        }
+
+        BigDecimal finalAmount = baseAmount.subtract(totalDiscount);
+
+        // Update order
+        order.setOriginalAmount(baseAmount);
+        order.setManualDiscount(effectiveDiscount);
+        order.setDiscountReason(reason);
+        order.setTotalAmount(finalAmount);
+
+        // Recalculate advance (30% of final)
+        BigDecimal advancePercent = BigDecimal.valueOf(30);
+        BigDecimal advance = finalAmount.multiply(advancePercent).divide(BigDecimal.valueOf(100));
+        order.setAdvanceAmount(advance);
+        order.calculateBalanceAmount();
+
+        // Add tracking entry
+        String trackingDesc = String.format(
+            "Manual discount of ₹%s applied. Reason: %s. Final amount: ₹%s",
+            effectiveDiscount, (reason != null && !reason.isBlank() ? reason : "N/A"), finalAmount
+        );
+        order.addTracking(order.getStatus(), "Admin", trackingDesc, "ADMIN");
+
+        Order updatedOrder = orderRepository.save(order);
+        log.info("✅ Manual discount applied on order {}. Final amount: ₹{}", updatedOrder.getOrderNumber(), finalAmount);
+
+        // Sync to vector store
+        try {
+            dataIngestionService.ingestOrder(updatedOrder);
+            log.info("✅ Vector sync done for order: {}", updatedOrder.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
+
+        // Send discount email to customer
+        try {
+            sendDiscountAppliedEmail(updatedOrder, effectiveDiscount, reason);
+            log.info("✅ Discount email sent for order: {}", updatedOrder.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Failed to send discount email: {}", e.getMessage());
         }
 
         return mapToResponse(updatedOrder);
@@ -273,6 +422,7 @@ public class OrderServiceImpl implements OrderService {
             throw new EntityNotFoundException("Order not found with ID: " + id);
         }
         log.info("Deleting order: {}", id);
+        dataIngestionService.deleteOrderFromVectorStore(id);
         orderRepository.deleteById(id);
     }
 
@@ -290,8 +440,21 @@ public class OrderServiceImpl implements OrderService {
         String description = reason != null ? "Order cancelled. Reason: " + reason : "Order cancelled by customer";
         order.addTracking(OrderStatus.CANCELLED, "System", description, "ADMIN");
 
-        orderRepository.save(order);
+        Order saved = orderRepository.save(order);
         log.info("Order {} cancelled", id);
+
+        try {
+            dataIngestionService.ingestOrder(saved);
+            log.info("✅ Vector sync done for cancelled order: {}", saved.getOrderNumber());
+        } catch (Exception e) {
+            log.error("❌ Vector sync failed: {}", e.getMessage());
+        }
+
+        try {
+            sendStatusUpdateEmail(id);
+        } catch (Exception e) {
+            log.error("❌ Failed to send cancellation email: {}", e.getMessage());
+        }
     }
 
     // ============================================================
@@ -310,7 +473,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // ============================================================
-    // DASHBOARD - FIXED NULL HANDLING
+    // DASHBOARD
     // ============================================================
 
     @Override
@@ -319,26 +482,25 @@ public class OrderServiceImpl implements OrderService {
 
         stats.setTotalOrders(orderRepository.countAllOrders());
         stats.setActiveOrders(orderRepository.countActiveOrders());
-        
-        // Fixed null handling
+
         Double totalRevenue = orderRepository.sumTotalRevenue();
         stats.setTotalRevenue(totalRevenue != null ? totalRevenue : 0.0);
-        
+
         Double activeRevenue = orderRepository.sumActiveRevenue();
         stats.setActiveRevenue(activeRevenue != null ? activeRevenue : 0.0);
-        
+
         Double todayRevenue = orderRepository.sumTodayRevenue();
         stats.setTodayRevenue(todayRevenue != null ? todayRevenue : 0.0);
-        
+
         Double thisMonthRevenue = orderRepository.sumThisMonthRevenue();
         stats.setThisMonthRevenue(thisMonthRevenue != null ? thisMonthRevenue : 0.0);
-        
+
         Double thisYearRevenue = orderRepository.sumThisYearRevenue();
         stats.setThisYearRevenue(thisYearRevenue != null ? thisYearRevenue : 0.0);
-        
+
         Double avgOrderValue = orderRepository.averageOrderValue();
         stats.setAverageOrderValue(avgOrderValue != null ? avgOrderValue : 0.0);
-        
+
         stats.setTotalCustomers(orderRepository.countDistinctCustomers());
 
         Map<String, Long> statusMap = new HashMap<>();
@@ -358,7 +520,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // ============================================================
-    // REVENUE BREAKDOWN - FIXED
+    // REVENUE BREAKDOWN
     // ============================================================
 
     @Override
@@ -371,7 +533,6 @@ public class OrderServiceImpl implements OrderService {
             LocalDateTime start = date.withDayOfMonth(1).atStartOfDay();
             LocalDateTime end = date.withDayOfMonth(date.lengthOfMonth()).atTime(23, 59, 59);
 
-            // Fixed: Query with date range instead of sumTotalRevenue
             List<Order> monthOrders = orderRepository.findByOrderDateBetween(start, end);
             double monthlyRevenue = monthOrders.stream()
                 .filter(o -> o.getTotalAmount() != null)
@@ -385,7 +546,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // ============================================================
-    // STATISTICS - FIXED NULL HANDLING
+    // STATISTICS
     // ============================================================
 
     @Override
@@ -457,6 +618,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void bulkDeleteOrders(List<Long> ids) {
+        for (Long id : ids) {
+            dataIngestionService.deleteOrderFromVectorStore(id);
+        }
         orderRepository.deleteAllById(ids);
     }
 
@@ -479,11 +643,78 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
 
-        emailService.sendOrderConfirmation(
-            order.getCustomerEmail(),
+        String customerSubject = "✅ Order Confirmation - " + order.getOrderNumber();
+        String customerBody = String.format("""
+            Dear %s,
+            
+            Thank you for your order with Lohari Fabrication! 🎉
+            
+            ═══════════════════════════════════════
+            📋 ORDER DETAILS
+            ─────────────────────────────────────
+            Order Number: %s
+            Order Date: %s
+            Status: %s
+            
+            📦 PRODUCT DETAILS
+            ─────────────────────────────────────
+            Product: %s
+            Material: %s
+            Finish: %s
+            Quantity: %d
+            Dimensions: %s x %s %s
+            
+            💰 PRICING
+            ─────────────────────────────────────
+            Total Amount: ₹%s
+            Advance Amount: ₹%s (30%%)
+            Balance Amount: ₹%s
+            
+            📍 DELIVERY ADDRESS
+            ─────────────────────────────────────
+            %s
+            %s
+            %s, %s - %s
+            
+            ═══════════════════════════════════════
+            
+            📞 We will contact you shortly at %s
+            📧 For queries, reply to this email
+            
+            🔗 Track your order: http://localhost:5173/orders/%d
+            
+            ═══════════════════════════════════════
+            
+            Thanks for choosing Lohari Fabrication!
+            
+            Best regards,
+            Lohari Fabrication Team
+            """,
+            order.getCustomerName(),
             order.getOrderNumber(),
-            order.getCustomerName()
+            order.getOrderDate(),
+            order.getStatus(),
+            order.getProductName(),
+            order.getMaterial() != null ? order.getMaterial() : "N/A",
+            order.getFinish() != null ? order.getFinish() : "N/A",
+            order.getQuantity(),
+            order.getWidth(),
+            order.getHeight(),
+            order.getUnit(),
+            order.getTotalAmount(),
+            order.getAdvanceAmount(),
+            order.getBalanceAmount(),
+            order.getDeliveryAddress().getAddressLine1(),
+            order.getDeliveryAddress().getAddressLine2() != null ? order.getDeliveryAddress().getAddressLine2() : "",
+            order.getDeliveryAddress().getCity(),
+            order.getDeliveryAddress().getState(),
+            order.getDeliveryAddress().getPincode(),
+            order.getCustomerPhone(),
+            order.getId()
         );
+
+        emailService.sendEmail(order.getCustomerEmail(), customerSubject, customerBody);
+        log.info("📧 Customer email sent to: {}", order.getCustomerEmail());
     }
 
     @Override
@@ -497,6 +728,146 @@ public class OrderServiceImpl implements OrderService {
             order.getStatus().getCode(),
             order.getStatus().getDescription()
         );
+
+        log.info("📧 Status update email sent to: {}", order.getCustomerEmail());
+    }
+
+    // ✅ NEW: Discount applied email
+    private void sendDiscountAppliedEmail(Order order, BigDecimal discount, String reason) {
+        String subject = "🎉 Special Discount Applied on Your Order - " + order.getOrderNumber();
+
+        String body = String.format("""
+            Dear %s,
+            
+            Great news! A special discount has been applied to your order. 🎉
+            
+            ═══════════════════════════════════════
+            💰 DISCOUNT DETAILS
+            ─────────────────────────────────────
+            Order Number: %s
+            Discount Amount: ₹%s
+            Reason: %s
+            
+            ─────────────────────────────────────
+            📊 UPDATED PRICING
+            ─────────────────────────────────────
+            Original Amount: ₹%s
+            Coupon Discount: ₹%s
+            Manual Discount: ₹%s
+            ─────────────────────────────────────
+            Final Amount: ₹%s
+            Advance Amount: ₹%s (30%%)
+            Balance Amount: ₹%s
+            ═══════════════════════════════════════
+            
+            Thank you for choosing Lohari Fabrication!
+            
+            🔗 Track your order: http://localhost:5173/orders/%d
+            
+            Best regards,
+            Lohari Fabrication Team
+            """,
+            order.getCustomerName(),
+            order.getOrderNumber(),
+            discount,
+            (reason != null && !reason.isBlank() ? reason : "Special discount from Lohari Fabrication"),
+            order.getOriginalAmount() != null ? order.getOriginalAmount() : order.getTotalAmount(),
+            order.getDiscountAmount() != null ? order.getDiscountAmount() : BigDecimal.ZERO,
+            order.getManualDiscount() != null ? order.getManualDiscount() : BigDecimal.ZERO,
+            order.getTotalAmount(),
+            order.getAdvanceAmount(),
+            order.getBalanceAmount(),
+            order.getId()
+        );
+
+        emailService.sendEmail(order.getCustomerEmail(), subject, body);
+        log.info("📧 Discount email sent to: {}", order.getCustomerEmail());
+    }
+
+    private void sendAdminNotificationEmail(Order order) {
+        String subject = "🔔 New Order Received - " + order.getOrderNumber();
+
+        String body = String.format("""
+            🎉 NEW ORDER RECEIVED!
+            ═══════════════════════════════════════
+            
+            📋 ORDER DETAILS
+            ─────────────────────────────────────
+            Order Number: %s
+            Order Date: %s
+            Status: %s
+            
+            👤 CUSTOMER DETAILS
+            ─────────────────────────────────────
+            Name: %s
+            Email: %s
+            Phone: %s
+            
+            📦 PRODUCT DETAILS
+            ─────────────────────────────────────
+            Product: %s
+            Material: %s
+            Finish: %s
+            Quantity: %d
+            Dimensions: %s x %s %s
+            
+            💰 PRICING
+            ─────────────────────────────────────
+            Total Amount: ₹%s
+            Advance Amount: ₹%s
+            Balance Amount: ₹%s
+            
+            📍 DELIVERY ADDRESS
+            ─────────────────────────────────────
+            %s
+            %s
+            %s, %s - %s
+            %s
+            
+            📝 NOTES
+            ─────────────────────────────────────
+            Customer Notes: %s
+            Special Instructions: %s
+            
+            ═══════════════════════════════════════
+            
+            📞 Call customer: %s
+            📧 Email: %s
+            
+            🔗 View Order: http://localhost:5173/admin/orders
+            
+            ═══════════════════════════════════════
+            """,
+            order.getOrderNumber(),
+            order.getOrderDate(),
+            order.getStatus(),
+            order.getCustomerName(),
+            order.getCustomerEmail(),
+            order.getCustomerPhone(),
+            order.getProductName(),
+            order.getMaterial() != null ? order.getMaterial() : "N/A",
+            order.getFinish() != null ? order.getFinish() : "N/A",
+            order.getQuantity(),
+            order.getWidth(),
+            order.getHeight(),
+            order.getUnit(),
+            order.getTotalAmount(),
+            order.getAdvanceAmount(),
+            order.getBalanceAmount(),
+            order.getDeliveryAddress().getAddressLine1(),
+            order.getDeliveryAddress().getAddressLine2() != null ? order.getDeliveryAddress().getAddressLine2() : "",
+            order.getDeliveryAddress().getCity(),
+            order.getDeliveryAddress().getState(),
+            order.getDeliveryAddress().getPincode(),
+            order.getDeliveryAddress().getCountry(),
+            order.getCustomerNotes() != null ? order.getCustomerNotes() : "None",
+            order.getSpecialInstructions() != null ? order.getSpecialInstructions() : "None",
+            order.getCustomerPhone(),
+            order.getCustomerEmail()
+        );
+
+        emailService.sendEmail(ADMIN_EMAIL, subject, body);
+        log.info("📧 Admin notification sent to: {}", ADMIN_EMAIL);
     }
 
     // ============================================================
@@ -532,10 +903,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByOrderDateBetween(start, endOfDay, pageable)
             .map(this::mapToResponse);
     }
-
-    // ============================================================
-    // ORDERS TREND
-    // ============================================================
 
     @Override
     public Map<String, Long> getOrdersTrend(int days) {
@@ -642,6 +1009,16 @@ public class OrderServiceImpl implements OrderService {
         response.setTotalAmount(order.getTotalAmount());
         response.setAdvanceAmount(order.getAdvanceAmount());
         response.setBalanceAmount(order.getBalanceAmount());
+
+        // ✅ COUPON FIELDS
+        response.setCouponCode(order.getCouponCode());
+        response.setDiscountAmount(order.getDiscountAmount());
+        response.setOriginalAmount(order.getOriginalAmount());
+
+        // ✅ MANUAL DISCOUNT FIELDS (NEW)
+        response.setManualDiscount(order.getManualDiscount());
+        response.setDiscountReason(order.getDiscountReason());
+
         response.setStatus(order.getStatus().toString());
         response.setStatusDescription(order.getStatus().getDescription());
 

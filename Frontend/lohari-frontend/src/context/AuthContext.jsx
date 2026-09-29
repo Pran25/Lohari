@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect, useCallback } from 'react'  // ✅ ADD useCallback
-import { useNavigate } from 'react-router-dom'  // ✅ ADD useNavigate
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   login as loginAPI,
   register as registerAPI,
@@ -14,7 +14,7 @@ export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
 
-  const navigate = useNavigate()  // ✅ ADD THIS
+  const navigate = useNavigate()
 
   // ✅ Load user from localStorage immediately
   const [user, setUser] = useState(() => {
@@ -111,23 +111,33 @@ export const AuthProvider = ({ children }) => {
   }
 
   // ==========================
-  // LOGOUT
+  // LOGOUT - FIXED
   // ==========================
-  const logout = useCallback(async () => {
+  const logout = useCallback(async (skipToast = false) => {
+    console.log('🔴 LOGOUT CALLED')
+
     try {
-      await logoutAPI()
+      // ✅ Only call API if online
+      if (navigator.onLine) {
+        await logoutAPI()
+      }
     } catch (error) {
       console.log('Logout API error (ignored):', error.message)
     }
 
+    // ✅ Clear localStorage
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('user')
     sessionStorage.clear()
 
+    // ✅ Reset user state
     setUser(null)
 
-    toast.success('Logged out successfully')
+    // ✅ Only show toast if not skipped (offline logout)
+    if (!skipToast && navigator.onLine) {
+      toast.success('Logged out successfully')
+    }
 
     // ✅ Redirect to login
     navigate('/login')

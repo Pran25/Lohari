@@ -11,6 +11,7 @@ import com.lohari.dto.OrderStatusUpdateRequest;
 import com.lohari.dto.OrderTrackingResponse;
 import com.lohari.dto.OrderUpdateRequest;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,9 @@ public interface OrderService {
     OrderResponse updateOrder(Long id, OrderUpdateRequest request);
     OrderResponse updateOrderStatus(Long id, OrderStatusUpdateRequest request);
     OrderResponse updateOrderStatus(Long id, String status, String location, String description);
+
+    // ========== MANUAL DISCOUNT (Admin) ==========
+    OrderResponse applyManualDiscount(Long id, BigDecimal discountAmount, String reason);
 
     // ========== DELETE ==========
     void deleteOrder(Long id);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FiPackage, FiClock, FiCheckCircle, FiXCircle, FiTruck, FiEye } from 'react-icons/fi'
+import { FiPackage, FiClock, FiCheckCircle, FiXCircle, FiTruck, FiEye, FiTool, FiMapPin, FiDollarSign } from 'react-icons/fi'
 import { getOrders } from '../api/order'
 import Loading from '../components/common/Loading'
 import toast from 'react-hot-toast'
@@ -17,10 +17,20 @@ function Orders() {
     try {
       setLoading(true)
       const data = await getOrders()
-      setOrders(data || [])
+      
+      // ✅ Handle different response formats
+      let orderList = []
+      if (Array.isArray(data)) {
+        orderList = data
+      } else if (data && data.content && Array.isArray(data.content)) {
+        orderList = data.content
+      }
+      
+      setOrders(orderList)
     } catch (error) {
       console.error('Error fetching orders:', error)
       toast.error('Failed to load orders')
+      setOrders([])
     } finally {
       setLoading(false)
     }
@@ -28,36 +38,60 @@ function Orders() {
 
   const getStatusIcon = (status) => {
     switch (status?.toUpperCase()) {
-      case 'PENDING':
-        return <FiClock className="text-yellow-400" />
-      case 'PROCESSING':
-        return <FiPackage className="text-blue-400" />
-      case 'SHIPPED':
-        return <FiTruck className="text-purple-400" />
-      case 'DELIVERED':
-        return <FiCheckCircle className="text-green-400" />
-      case 'CANCELLED':
-        return <FiXCircle className="text-red-400" />
-      default:
-        return <FiPackage className="text-white/50" />
+      case 'PENDING': return <FiClock className="text-yellow-400" />
+      case 'QUOTE_SENT': return <FiDollarSign className="text-blue-400" />
+      case 'QUOTE_ACCEPTED': return <FiCheckCircle className="text-green-400" />
+      case 'SITE_VISIT_SCHEDULED': return <FiMapPin className="text-purple-400" />
+      case 'SITE_VISIT_COMPLETED': return <FiMapPin className="text-purple-500" />
+      case 'ADVANCE_PAID': return <FiDollarSign className="text-green-400" />
+      case 'FABRICATION_STARTED': return <FiTool className="text-orange-400" />
+      case 'FABRICATION_IN_PROGRESS': return <FiTool className="text-orange-500" />
+      case 'FABRICATION_COMPLETE': return <FiTool className="text-green-400" />
+      case 'DELIVERY_SCHEDULED': return <FiTruck className="text-blue-400" />
+      case 'DELIVERED': return <FiCheckCircle className="text-green-400" />
+      case 'COMPLETED': return <FiCheckCircle className="text-green-500" />
+      case 'CANCELLED': return <FiXCircle className="text-red-400" />
+      default: return <FiPackage className="text-white/50" />
     }
   }
 
   const getStatusColor = (status) => {
     switch (status?.toUpperCase()) {
-      case 'PENDING':
-        return 'text-yellow-400 bg-yellow-400/10'
-      case 'PROCESSING':
-        return 'text-blue-400 bg-blue-400/10'
-      case 'SHIPPED':
-        return 'text-purple-400 bg-purple-400/10'
-      case 'DELIVERED':
-        return 'text-green-400 bg-green-400/10'
-      case 'CANCELLED':
-        return 'text-red-400 bg-red-400/10'
-      default:
-        return 'text-white/50 bg-white/5'
+      case 'PENDING': return 'text-yellow-400 bg-yellow-400/10'
+      case 'QUOTE_SENT': return 'text-blue-400 bg-blue-400/10'
+      case 'QUOTE_ACCEPTED': return 'text-green-400 bg-green-400/10'
+      case 'SITE_VISIT_SCHEDULED': return 'text-purple-400 bg-purple-400/10'
+      case 'SITE_VISIT_COMPLETED': return 'text-purple-500 bg-purple-500/10'
+      case 'ADVANCE_PAID': return 'text-green-400 bg-green-400/10'
+      case 'FABRICATION_STARTED': return 'text-orange-400 bg-orange-400/10'
+      case 'FABRICATION_IN_PROGRESS': return 'text-orange-500 bg-orange-500/10'
+      case 'FABRICATION_COMPLETE': return 'text-green-400 bg-green-400/10'
+      case 'DELIVERY_SCHEDULED': return 'text-blue-400 bg-blue-400/10'
+      case 'DELIVERED': return 'text-green-400 bg-green-400/10'
+      case 'COMPLETED': return 'text-green-500 bg-green-500/10'
+      case 'CANCELLED': return 'text-red-400 bg-red-400/10'
+      default: return 'text-white/50 bg-white/5'
     }
+  }
+
+  // ✅ Calculate progress for fabrication flow
+  const getProgressWidth = (status) => {
+    const statusMap = {
+      'PENDING': 8,
+      'QUOTE_SENT': 16,
+      'QUOTE_ACCEPTED': 24,
+      'SITE_VISIT_SCHEDULED': 32,
+      'SITE_VISIT_COMPLETED': 40,
+      'ADVANCE_PAID': 48,
+      'FABRICATION_STARTED': 56,
+      'FABRICATION_IN_PROGRESS': 64,
+      'FABRICATION_COMPLETE': 72,
+      'DELIVERY_SCHEDULED': 80,
+      'DELIVERED': 90,
+      'COMPLETED': 100,
+      'CANCELLED': 0
+    }
+    return statusMap[status?.toUpperCase()] || 8
   }
 
   if (loading) return <Loading />
@@ -83,10 +117,10 @@ function Orders() {
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 {/* Order Info */}
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <span className="text-white font-semibold">Order #{order.orderNumber || order.id}</span>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                      {order.status || 'PENDING'}
+                      {order.status?.replace(/_/g, ' ') || 'PENDING'}
                     </span>
                   </div>
                   <p className="text-white/60 text-sm">
@@ -124,19 +158,14 @@ function Orders() {
                 <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-gradient-to-r from-secondary to-orange-400 rounded-full transition-all duration-500"
-                    style={{ 
-                      width: order.status === 'DELIVERED' ? '100%' : 
-                             order.status === 'SHIPPED' ? '75%' :
-                             order.status === 'PROCESSING' ? '50%' :
-                             order.status === 'PENDING' ? '25%' : '0%'
-                    }}
+                    style={{ width: `${getProgressWidth(order.status)}%` }}
                   />
                 </div>
                 <div className="flex justify-between mt-1 text-xs text-white/40">
                   <span>Ordered</span>
-                  <span>Processing</span>
-                  <span>Shipped</span>
-                  <span>Delivered</span>
+                  <span>Fabrication</span>
+                  <span>Delivery</span>
+                  <span>Complete</span>
                 </div>
               </div>
             </div>

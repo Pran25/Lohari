@@ -1,0 +1,57 @@
+# ==============================================
+# BACKEND — SECRETS
+# ==============================================
+Backend/lohari-backend/.env
+Backend/lohari-backend/.env.local
+Backend/lohari-backend/.env.*.local
+Backend/lohari-backend/application-local.properties
+Backend/lohari-backend/application-secret.properties
+Backend/lohari-backend/application-prod.properties
+
+# ==============================================
+# BACKEND — BUILD
+# ==============================================
+Backend/lohari-backend/target/
+Backend/lohari-backend/logs/
+Backend/lohari-backend/uploads/
+*.class
+
+# ==============================================
+# FRONTEND — DEPENDENCIES
+# ==============================================
+Frontend/lohari-frontend/node_modules/
+Frontend/lohari-frontend/dist/
+Frontend/lohari-frontend/build/
+Frontend/lohari-frontend/.vite/
+
+# ==============================================
+# FRONTEND — ENV
+# ==============================================
+Frontend/lohari-frontend/.env
+Frontend/lohari-frontend/.env.local
+Frontend/lohari-frontend/.env.*.local
+
+# ==============================================
+# ECLIPSE / IDE
+# ==============================================
+.metadata/
+Backend/lohari-backend/.classpath
+Backend/lohari-backend/.project
+Backend/lohari-backend/.factorypath
+Backend/lohari-backend/.settings/
+.idea/
+.vscode/
+*.iml
+
+# ==============================================
+# LOGS
+# ==============================================
+*.log
+*.log.gz
+logs/
+
+# ==============================================
+# OS
+# ==============================================
+.DS_Store
+Thumbs.db

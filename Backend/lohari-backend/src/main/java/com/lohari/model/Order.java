@@ -82,6 +82,25 @@ public class Order {
     @Column(name = "balance_amount", precision = 10, scale = 2)
     private BigDecimal balanceAmount;
 
+    // ========== COUPON / DISCOUNT ==========
+
+    @Column(name = "coupon_code", length = 50)
+    private String couponCode;
+
+    @Column(name = "discount_amount", precision = 10, scale = 2)
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+
+    @Column(name = "original_amount", precision = 10, scale = 2)
+    private BigDecimal originalAmount;
+
+    // ========== MANUAL DISCOUNT (Admin) ==========
+
+    @Column(name = "manual_discount", precision = 10, scale = 2)
+    private BigDecimal manualDiscount = BigDecimal.ZERO;
+
+    @Column(name = "discount_reason", length = 255)
+    private String discountReason;
+
     // ========== STATUS ==========
 
     @Enumerated(EnumType.STRING)
@@ -128,7 +147,7 @@ public class Order {
     private String cadDrawingUrl;
 
     @Column(name = "site_photos", columnDefinition = "jsonb")
-    @JdbcTypeCode(SqlTypes.JSON)  // ✅ THIS FIXES THE JSONB ERROR
+    @JdbcTypeCode(SqlTypes.JSON)
     private List<String> sitePhotos;
 
     // ========== PAYMENT ==========
@@ -170,6 +189,8 @@ public class Order {
         if (orderNumber == null) {
             orderNumber = generateOrderNumber();
         }
+        if (discountAmount == null) discountAmount = BigDecimal.ZERO;
+        if (manualDiscount == null) manualDiscount = BigDecimal.ZERO;
     }
 
     @PreUpdate
@@ -274,6 +295,27 @@ public class Order {
 
     public BigDecimal getBalanceAmount() { return balanceAmount; }
     public void setBalanceAmount(BigDecimal balanceAmount) { this.balanceAmount = balanceAmount; }
+
+    // ========== COUPON GETTERS/SETTERS ==========
+
+    public String getCouponCode() { return couponCode; }
+    public void setCouponCode(String couponCode) { this.couponCode = couponCode; }
+
+    public BigDecimal getDiscountAmount() { return discountAmount; }
+    public void setDiscountAmount(BigDecimal discountAmount) { this.discountAmount = discountAmount; }
+
+    public BigDecimal getOriginalAmount() { return originalAmount; }
+    public void setOriginalAmount(BigDecimal originalAmount) { this.originalAmount = originalAmount; }
+
+    // ========== MANUAL DISCOUNT GETTERS/SETTERS ==========
+
+    public BigDecimal getManualDiscount() { return manualDiscount; }
+    public void setManualDiscount(BigDecimal manualDiscount) { this.manualDiscount = manualDiscount; }
+
+    public String getDiscountReason() { return discountReason; }
+    public void setDiscountReason(String discountReason) { this.discountReason = discountReason; }
+
+    // ========== STATUS GETTERS/SETTERS ==========
 
     public OrderStatus getStatus() { return status; }
     public void setStatus(OrderStatus status) { this.status = status; }
