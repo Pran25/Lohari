@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   FiArrowRight, FiStar, FiShield, FiTool,
   FiPlay, FiCheckCircle, FiTrendingUp,
 } from 'react-icons/fi'
 import { getPublicStats } from '../api/publicAPI'
+
+const showcaseProducts = [
+  { name: 'Apex Multi-Tier Rack', image: '/images/ApexMulti-Tier.jpg' },
+  { name: 'AuraFrame Light', image: '/images/AuraFrame%20Light.jpg' },
+  { name: 'Aura Outdoor Lounge Set', image: '/images/AuraOutdoorLoungeSet.jpg' },
+  { name: 'Loop Rail', image: '/images/LoopRail.jpg' },
+  { name: 'Luxe Wardrobe', image: '/images/LuxeWardrobe.jpg' },
+  { name: 'Roll Towel Valet', image: '/images/RollTowelValet.jpg' },
+  { name: 'Sleek Stack Caddy', image: '/images/SleekStackCaddy.jpg' },
+  { name: 'Timber Bench', image: '/images/TimberBench.jpg' },
+  { name: 'Tower Rack', image: '/images/TowerRack.jpg' },
+]
 
 function Home() {
   const [stats, setStats] = useState({
@@ -31,36 +43,34 @@ function Home() {
   }, [])
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="-mt-20 overflow-x-hidden">
 
       {/* ═══════════════════════════════════════════ */}
       {/* HERO SECTION — Video Background Ready */}
       {/* ═══════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
 
-        {/* ─── VIDEO BACKGROUND (uncomment when video ready) ─── */}
-        {/*
         <video
           autoPlay
           loop
           muted
           playsInline
+          poster="/images/LohariAdvertisement.png"
           className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden="true"
         >
-          <source src="/videos/hero.mp4" type="video/mp4" />
+          <source src="/videos/LOHARI_modern_fabrication_ad.mp4" type="video/mp4" />
         </video>
-        */}
 
-        {/* ─── FALLBACK BACKGROUND (jab tak video nahi) ─── */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/25 via-slate-900/10 to-slate-950/25" />
 
         {/* Ambient glows — video ke saath bhi kaam karenge */}
         <div className="pointer-events-none absolute top-32 left-20 w-96 h-96 bg-cyan-500/[0.08] rounded-full blur-[120px] animate-pulse" />
         <div className="pointer-events-none absolute bottom-20 right-20 w-[500px] h-[500px] bg-indigo-500/[0.08] rounded-full blur-[140px]" />
 
         {/* Dark overlay — video pe text readable rakhne ke liye */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/35 to-slate-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-transparent to-slate-950/75" />
 
         {/* ─── CONTENT ─── */}
         <div className="relative z-10 container-custom py-24 md:py-32">
@@ -223,6 +233,31 @@ function Home() {
         </div>
       </section>
 
+      <section className="relative py-12 md:py-16">
+        <div className="container-custom">
+          <div className="overflow-hidden rounded-3xl border border-white/[0.08] bg-slate-900/50">
+            <img
+              src="/images/LohariAdvertisement.png"
+              alt="Lohari modern metal fabrication advertisement"
+              loading="lazy"
+              className="w-full max-h-[520px] object-contain bg-slate-950"
+            />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-5 md:px-8">
+              <p className="text-slate-200 font-medium">
+                Have a project in mind? Let’s build something made for you.
+              </p>
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors shrink-0"
+              >
+                Talk to our team
+                <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════════════════════════════════════ */}
       {/* FEATURES SECTION */}
       {/* ═══════════════════════════════════════════ */}
@@ -290,6 +325,60 @@ function Home() {
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════ */}
+      {/* PRODUCT SHOWCASE */}
+      {/* ═══════════════════════════════════════════ */}
+      <section className="relative py-20 md:py-28">
+        <div className="relative container-custom">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+              <span className="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-[0.15em] text-cyan-400 border border-cyan-400/20 bg-cyan-400/[0.05] rounded-full mb-4">
+                Made by Lohari
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-3">
+                Crafted for everyday living
+              </h2>
+              <p className="text-slate-400 text-lg max-w-2xl">
+                A closer look at thoughtfully designed pieces, made with care and built to last.
+              </p>
+            </div>
+            <Link
+              to="/products"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors shrink-0"
+            >
+              Browse the collection
+              <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {showcaseProducts.map((product) => (
+              <Link
+                key={product.name}
+                to="/products"
+                className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-slate-900/40 hover:border-cyan-400/30 transition-colors"
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-slate-950">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-3 px-5 py-4">
+                  <h3 className="text-white font-semibold">{product.name}</h3>
+                  <FiArrowRight
+                    aria-hidden="true"
+                    className="shrink-0 text-cyan-400 group-hover:translate-x-1 transition-transform"
+                  />
+                </div>
+              </Link>
             ))}
           </div>
         </div>

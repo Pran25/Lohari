@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import NotificationBell from './NotificationBell'
 import {
   FiShoppingCart, FiUser, FiLogOut, FiMenu, FiX,
-  FiChevronDown, FiPackage, FiSettings, FiShield,
+  FiChevronDown, FiPackage, FiSettings,
   FiBarChart2, FiCpu,
   FiSearch, FiPlus, FiEye, FiUsers, FiGrid, FiTruck,
 } from 'react-icons/fi'
@@ -18,16 +18,49 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const dropdownRef = useRef(null)
+  const searchRef = useRef(null)
+  const [adminSearch, setAdminSearch] = useState('')
+  const [isAdminSearchOpen, setIsAdminSearchOpen] = useState(false)
 
   const isAdmin = user?.role === 'ADMIN'
+  const adminSearchItems = [
+    { label: 'Dashboard', path: '/admin/dashboard' },
+    { label: 'Products', path: '/admin/products' },
+    { label: 'New Product', path: '/admin/products/new' },
+    { label: 'Orders', path: '/admin/orders' },
+    { label: 'Categories', path: '/admin/categories' },
+    { label: 'Users', path: '/admin/users' },
+    { label: 'Inquiries', path: '/admin/inquiries' },
+    { label: 'Analytics', path: '/analytics' },
+    { label: 'AI Assistant', path: '/ai-assistant' },
+    { label: 'Store', path: '/' },
+  ]
+  const filteredAdminSearchItems = adminSearchItems.filter((item) =>
+    item.label.toLowerCase().includes(adminSearch.trim().toLowerCase())
+  )
 
   useEffect(() => {
     const onClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target))
         setIsDropdownOpen(false)
+      if (searchRef.current && !searchRef.current.contains(e.target))
+        setIsAdminSearchOpen(false)
     }
     document.addEventListener('mousedown', onClick)
     return () => document.removeEventListener('mousedown', onClick)
+  }, [])
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        searchRef.current?.querySelector('input')?.focus()
+        setIsAdminSearchOpen(true)
+      }
+      if (event.key === 'Escape') setIsAdminSearchOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
   }, [])
 
   useEffect(() => {
@@ -45,8 +78,14 @@ function Navbar() {
 
   const closeMenu = () => setIsMenuOpen(false)
 
+  const selectAdminSearchResult = (path) => {
+    navigate(path)
+    setAdminSearch('')
+    setIsAdminSearchOpen(false)
+  }
+
   const navLinkClass = ({ isActive }) =>
-    `relative px-4 py-2 rounded-xl text-[13px] font-semibold tracking-wide transition-all duration-200 ${
+    `relative px-2.5 py-2 rounded-xl text-[13px] font-semibold tracking-wide transition-all duration-200 ${
       isActive
         ? 'text-white bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]'
         : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
@@ -66,7 +105,7 @@ function Navbar() {
             : 'bg-slate-950/70 border-white/[0.05] backdrop-blur-xl'
         }`}
       >
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="px-4 sm:px-5 md:px-6 lg:px-8">
           <div className={`flex justify-between items-center transition-all duration-300 ${scrolled ? 'h-14' : 'h-16'}`}>
 
             {/* ---------- LOGO ---------- */}
@@ -85,7 +124,7 @@ function Navbar() {
             </Link>
 
             {/* ---------- DESKTOP MENU ---------- */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0.5">
               {isAdmin ? (
                 <>
                   {/* ---- ADMIN LINKS ---- */}
@@ -96,16 +135,42 @@ function Navbar() {
                   <NavLink to="/analytics"       className={navLinkClass}>Analytics</NavLink>
                   <NavLink to="/ai-assistant"    className={navLinkClass}>AI</NavLink>
 
-                  <div className="w-px h-5 bg-white/[0.08] mx-2" />
+                  <div className="w-px h-5 bg-white/[0.08] mx-1.5" />
 
                   {/* ---- SEARCH ---- */}
-                  <div className="hidden lg:flex items-center gap-2 px-3 h-9 rounded-xl border border-white/[0.08] bg-white/[0.02] focus-within:border-cyan-400/40 transition-all">
+                  <div ref={searchRef} className="relative hidden lg:flex items-center gap-2 px-3 h-9 rounded-xl border border-white/[0.08] bg-white/[0.02] focus-within:border-cyan-400/40 transition-all">
                     <FiSearch size={14} className="text-slate-500" />
                     <input
                       placeholder="Search…"
+                      aria-label="Search admin pages"
+                      aria-expanded={isAdminSearchOpen && adminSearch.trim().length > 0}
+                      value={adminSearch}
+                      onChange={(event) => setAdminSearch(event.target.value)}
+                      onFocus={() => setIsAdminSearchOpen(true)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' && filteredAdminSearchItems.length > 0) {
+                          selectAdminSearchResult(filteredAdminSearchItems[0].path)
+                        }
+                      }}
                       className="bg-transparent outline-none text-[12px] text-white placeholder:text-slate-500 w-40 xl:w-56"
                     />
                     <kbd className="hidden xl:inline text-[9px] px-1.5 py-0.5 rounded bg-white/[0.06] text-slate-400">⌘K</kbd>
+                    {isAdminSearchOpen && adminSearch.trim() && (
+                      <div className="absolute top-full left-0 mt-2 w-full min-w-56 rounded-xl border border-white/[0.08] bg-slate-950/95 p-1.5 shadow-xl backdrop-blur-2xl z-50">
+                        {filteredAdminSearchItems.length > 0 ? filteredAdminSearchItems.map((item) => (
+                          <button
+                            key={item.path}
+                            type="button"
+                            onClick={() => selectAdminSearchResult(item.path)}
+                            className="block w-full rounded-lg px-3 py-2 text-left text-[12px] text-slate-300 hover:bg-white/[0.08] hover:text-white"
+                          >
+                            {item.label}
+                          </button>
+                        )) : (
+                          <p className="px-3 py-2 text-[12px] text-slate-500">No admin pages found</p>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* ---- VIEW STORE ---- */}
@@ -195,14 +260,14 @@ function Navbar() {
                   {/* ---- CUSTOMER LINKS ---- */}
                   <NavLink to="/products" className={navLinkClass}>Products</NavLink>
                   <NavLink to="/about"    className={navLinkClass}>About</NavLink>
-                  <NavLink to="/contact"  className={navLinkClass}>Contact</NavLink>
+                  <NavLink to="/contact?type=site-visit" className={navLinkClass}>Site Visit</NavLink>
                   <NavLink to="/orders"   className={navLinkClass}>Orders</NavLink>
 
-                  <div className="w-px h-5 bg-white/[0.08] mx-2" />
+                  <div className="w-px h-5 bg-white/[0.08] mx-1.5" />
 
                   <Link
                     to="/cart"
-                    className="group relative p-2.5 rounded-xl text-slate-300 border border-white/[0.08] bg-white/[0.02] hover:border-cyan-400/40 hover:text-white hover:bg-cyan-400/[0.06] hover:shadow-[0_0_20px_-6px_rgba(34,211,238,0.5)] transition-all duration-200"
+                    className="group relative p-2 rounded-xl text-slate-300 border border-white/[0.08] bg-white/[0.02] hover:border-cyan-400/40 hover:text-white hover:bg-cyan-400/[0.06] hover:shadow-[0_0_20px_-6px_rgba(34,211,238,0.5)] transition-all duration-200"
                   >
                     <FiShoppingCart size={17} />
                     {cartCount > 0 && (
@@ -269,9 +334,8 @@ function Navbar() {
               ) : (
                 <>
                   {/* ---- GUEST LINKS ---- */}
-                  <NavLink to="/products" className={navLinkClass}>Products</NavLink>
                   <NavLink to="/about"    className={navLinkClass}>About</NavLink>
-                  <NavLink to="/contact"  className={navLinkClass}>Contact</NavLink>
+                  <NavLink to="/contact?type=site-visit" className={navLinkClass}>Site Visit</NavLink>
 
                   <div className="w-px h-5 bg-white/[0.08] mx-2" />
 
@@ -353,6 +417,7 @@ function Navbar() {
               </p>
               <MobileLink to="/admin/dashboard" icon={<FiGrid size={16} />}       onNav={closeMenu}>Dashboard</MobileLink>
               <MobileLink to="/admin/products"  icon={<FiPackage size={16} />}    onNav={closeMenu}>Products</MobileLink>
+              <MobileLink to="/admin/products/new" icon={<FiPlus size={16} />}    onNav={closeMenu}>New Product</MobileLink>
               <MobileLink to="/admin/orders"    icon={<FiTruck size={16} />}      onNav={closeMenu}>Orders</MobileLink>
               <MobileLink to="/admin/users"     icon={<FiUsers size={16} />}      onNav={closeMenu}>Users</MobileLink>
 
@@ -396,7 +461,7 @@ function Navbar() {
 
               <MobileLink to="/products" onNav={closeMenu}>Products</MobileLink>
               <MobileLink to="/about"    onNav={closeMenu}>About</MobileLink>
-              <MobileLink to="/contact"  onNav={closeMenu}>Contact</MobileLink>
+              <MobileLink to="/contact?type=site-visit" onNav={closeMenu}>Site Visit</MobileLink>
               <MobileLink to="/orders"   icon={<FiPackage size={16} />}  onNav={closeMenu}>My Orders</MobileLink>
               <MobileLink to="/profile"  icon={<FiUser size={16} />}     onNav={closeMenu}>Profile</MobileLink>
               <MobileLink to="/settings" icon={<FiSettings size={16} />} onNav={closeMenu}>Settings</MobileLink>
@@ -412,9 +477,8 @@ function Navbar() {
             </>
           ) : (
             <>
-              <MobileLink to="/products" onNav={closeMenu}>Products</MobileLink>
               <MobileLink to="/about"    onNav={closeMenu}>About</MobileLink>
-              <MobileLink to="/contact"  onNav={closeMenu}>Contact</MobileLink>
+              <MobileLink to="/contact?type=site-visit" onNav={closeMenu}>Site Visit</MobileLink>
 
               <div className="pt-4 space-y-2.5">
                 <Link

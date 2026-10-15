@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { FiDownload, FiFileText } from 'react-icons/fi'
+import { useState } from 'react'
+import { FiDownload } from 'react-icons/fi'
 import toast from 'react-hot-toast'
 
 function InvoiceButton({ orderId, orderNumber }) {

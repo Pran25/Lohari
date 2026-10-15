@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { FiSearch, FiShoppingCart, FiStar, FiTrendingUp } from 'react-icons/fi'
 import { getProducts, searchProducts } from '../api/product'
 import { useCart } from '../context/CartContext'
 import Loading from '../components/common/Loading'
 import toast from 'react-hot-toast'
+
+const normalizeProducts = (data) => {
+  if (Array.isArray(data?.content)) return data.content
+  return Array.isArray(data) ? data : []
+}
 
 function Products() {
   const [products, setProducts] = useState([])
@@ -13,34 +18,41 @@ function Products() {
   const [searching, setSearching] = useState(false)
   const { addToCart } = useCart()
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true)
       console.log('🔄 Fetching products...')
       const data = await getProducts()
       console.log('📦 Full API Response:', JSON.stringify(data, null, 2))
 
-      let productList = []
-      if (data && data.content && Array.isArray(data.content)) {
-        productList = data.content
-      } else if (Array.isArray(data)) {
-        productList = data
-      } else {
-        productList = []
-      }
-
-      setProducts(productList)
+      setProducts(normalizeProducts(data))
     } catch (error) {
       console.error('❌ Error fetching products:', error)
       toast.error('Failed to load products')
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    getProducts()
+      .then((data) => {
+        if (active) setProducts(normalizeProducts(data))
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching products:', error)
+        toast.error('Failed to load products')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleSearch = async (e) => {
     const keyword = e.target.value

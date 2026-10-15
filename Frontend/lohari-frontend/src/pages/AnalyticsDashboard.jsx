@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   FiPackage,
   FiUsers,
@@ -32,6 +32,16 @@ import CityChart from '../components/analytics/CityChart'
 import RevenueGrowthChart from '../components/analytics/RevenueGrowthChart'
 import Loading from '../components/common/Loading'
 
+const fetchAnalyticsData = () => Promise.all([
+  getDashboard(),
+  getDailyOrders(30).catch(() => []),
+  getCategorySales().catch(() => []),
+  getCustomerSplit().catch(() => null),
+  getPaymentMethods().catch(() => []),
+  getCityDistribution(10).catch(() => []),
+  getRevenueGrowth(6).catch(() => []),
+])
+
 function AnalyticsDashboard() {
   const [data, setData] = useState(null)
   const [extras, setExtras] = useState({
@@ -46,23 +56,38 @@ function AnalyticsDashboard() {
   const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
-    fetchAll()
+    let active = true
+    fetchAnalyticsData()
+      .then(([dashboard, daily, cat, split, pay, city, growth]) => {
+        if (!active) return
+        setData(dashboard)
+        setExtras({
+          dailyOrders: daily,
+          categorySales: cat,
+          customerSplit: split,
+          paymentMethods: pay,
+          cities: city,
+          revenueGrowth: growth,
+        })
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('Analytics fetch error:', error)
+        toast.error('Failed to load analytics')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
   }, [])
 
   const fetchAll = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
-
-      const [dashboard, daily, cat, split, pay, city, growth] = await Promise.all([
-        getDashboard(),
-        getDailyOrders(30).catch(() => []),
-        getCategorySales().catch(() => []),
-        getCustomerSplit().catch(() => null),
-        getPaymentMethods().catch(() => []),
-        getCityDistribution(10).catch(() => []),
-        getRevenueGrowth(6).catch(() => []),
-      ])
-
+      const [dashboard, daily, cat, split, pay, city, growth] = await fetchAnalyticsData()
       setData(dashboard)
       setExtras({
         dailyOrders: daily,

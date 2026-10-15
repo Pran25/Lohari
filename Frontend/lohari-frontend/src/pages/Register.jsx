@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { FcGoogle } from 'react-icons/fc'
@@ -24,7 +24,7 @@ function Register() {
     try {
       await register(formData)
       navigate('/login')
-    } catch (error) {
+    } catch {
       // Error handled in context
     } finally {
       setLoading(false)

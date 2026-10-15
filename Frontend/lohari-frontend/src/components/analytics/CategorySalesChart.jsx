@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
@@ -72,7 +71,7 @@ function CategorySalesChart({ data = [], loading = false }) {
             tick={{ fill: '#ffffff80' }}
             tickFormatter={formatCurrency}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: '#ffffff05' }} />
+          <Tooltip content={CustomTooltip} cursor={{ fill: '#ffffff05' }} />
           <Bar dataKey="revenue" name="Revenue" radius={[6, 6, 0, 0]}>
             {data.map((entry, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />

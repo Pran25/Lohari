@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
 import { FiX, FiTag, FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
@@ -8,15 +8,6 @@ function AdminDiscount({ isOpen, onClose, order, onSuccess }) {
   const [reason, setReason] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
-  // Order change hone pe form reset karo
-  useEffect(() => {
-    if (isOpen) {
-      setDiscountAmount('')
-      setReason('')
-      setError('')
-    }
-  }, [isOpen, order])
 
   if (!isOpen || !order) return null
 

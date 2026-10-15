@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const API_BASE_URL = 'http://localhost:8081'
 const ORDERS_BASE = `${API_BASE_URL}/api/orders`
+const INQUIRIES_BASE = `${API_BASE_URL}/api/inquiries`
 
 const getToken = () => localStorage.getItem('accessToken')
 
@@ -36,6 +37,19 @@ export const getRecentOrders = async (limit = 10) => {
     return []
   } catch (error) {
     console.error('❌ Failed to fetch recent orders:', error)
+    return []
+  }
+}
+
+export const getRecentInquiries = async (limit = 10) => {
+  try {
+    const response = await axios.get(`${INQUIRIES_BASE}/admin/all`, authHeaders())
+    if (Array.isArray(response.data)) {
+      return response.data.slice(0, limit)
+    }
+    return []
+  } catch (error) {
+    console.error('Failed to fetch recent inquiries:', error)
     return []
   }
 }

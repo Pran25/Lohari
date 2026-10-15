@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   FiPlus, FiEdit2, FiTrash2, FiX, FiTag, FiCheck,
   FiToggleLeft, FiToggleRight, FiSearch, FiCopy,
@@ -33,11 +33,7 @@ function AdminCoupons() {
 
   const [formData, setFormData] = useState(emptyForm)
 
-  useEffect(() => {
-    fetchCoupons()
-  }, [])
-
-  const fetchCoupons = async () => {
+  const fetchCoupons = useCallback(async () => {
     try {
       setLoading(true)
       const res = await axios.get('/coupons/admin')
@@ -48,7 +44,27 @@ function AdminCoupons() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    axios.get('/coupons/admin')
+      .then((response) => {
+        if (active) setCoupons(response.data || [])
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('Failed to load coupons:', error)
+        toast.error('Failed to load coupons')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -124,7 +140,7 @@ function AdminCoupons() {
       await axios.delete(`/coupons/admin/${id}`)
       toast.success('Coupon deleted!')
       fetchCoupons()
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete coupon')
     }
   }
@@ -134,7 +150,7 @@ function AdminCoupons() {
       await axios.put(`/coupons/admin/${id}/toggle`)
       toast.success('Coupon status updated!')
       fetchCoupons()
-    } catch (error) {
+    } catch {
       toast.error('Failed to toggle coupon')
     }
   }

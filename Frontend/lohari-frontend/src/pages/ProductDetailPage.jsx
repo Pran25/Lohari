@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   FiShoppingCart, FiArrowLeft, FiPackage, FiClock,
@@ -15,33 +15,43 @@ import { useAuth } from '../context/AuthContext'
 function ProductDetailPage() {
   const { slug } = useParams()
   const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loadedSlug, setLoadedSlug] = useState(null)
+  const loading = loadedSlug !== slug
   const [quantity, setQuantity] = useState(1)
   const { addToCart } = useCart()
   const { isAuthenticated } = useAuth()
 
-  const hasFetched = useRef(false)
+  useEffect(() => {
+    let active = true
+
+    getProductBySlug(slug)
+      .then((data) => {
+        if (active) setProduct(data)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching product:', error)
+        setProduct(null)
+        toast.error('Product not found')
+      })
+      .finally(() => {
+        if (active) setLoadedSlug(slug)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [slug])
 
   const fetchProduct = async () => {
-    if (hasFetched.current) return
-    hasFetched.current = true
-
     try {
-      setLoading(true)
       const data = await getProductBySlug(slug)
       setProduct(data)
     } catch (error) {
       console.error('❌ Error fetching product:', error)
       toast.error('Product not found')
-    } finally {
-      setLoading(false)
     }
   }
-
-  useEffect(() => {
-    fetchProduct()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handleAddToCart = () => {
     if (product) {

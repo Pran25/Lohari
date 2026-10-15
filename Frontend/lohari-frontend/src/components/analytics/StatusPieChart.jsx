@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   PieChart,
   Pie,
@@ -138,7 +137,7 @@ function StatusPieChart({ data = [], loading = false }) {
             ))}
           </Pie>
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
 
           <Legend content={renderLegend} />
         </PieChart>

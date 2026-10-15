@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import toast from 'react-hot-toast'
 
 export const useOfflineDetection = () => {
-  const { logout, user } = useAuth()  // ✅ Get user instead of isAuthenticated
+  const { logout, user } = useAuth()
   const [isOnline, setIsOnline] = useState(navigator.onLine)
-  
-  // ✅ Use ref to store logout function
   const logoutRef = useRef(logout)
+  const logoutTriggered = useRef(false)
 
   useEffect(() => {
     logoutRef.current = logout
@@ -15,40 +15,30 @@ export const useOfflineDetection = () => {
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true)
-      console.log('🟢 User is online')
+      logoutTriggered.current = false
     }
 
     const handleOffline = () => {
       setIsOnline(false)
-      console.log('🔴 User is offline')
-      
-      // ✅ Check if user is logged in
-      if (user) {
-        console.log('🔴 User logged in, calling logout...')
-        logoutRef.current()
-        alert('⚠️ You are offline. Please login again.')
-      }
+      if (!user || logoutTriggered.current) return
+
+      logoutTriggered.current = true
+      void logoutRef.current(true)
+      toast.error('You are offline. You have been logged out.')
     }
 
     window.addEventListener('online', handleOnline)
     window.addEventListener('offline', handleOffline)
 
-    // ✅ Periodic check every 5 seconds
-    const interval = setInterval(() => {
-      if (!navigator.onLine && user) {
-        console.log('🔴 Periodic check: Offline + logged in')
-        setIsOnline(false)
-        logoutRef.current()
-        alert('⚠️ You are offline. Please login again.')
-      }
-    }, 5000)
+    if (!navigator.onLine) {
+      handleOffline()
+    }
 
     return () => {
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
-      clearInterval(interval)
     }
-  }, [user])  // ✅ Only depends on user
+  }, [user])
 
   return { isOnline }
 }

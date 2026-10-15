@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FiUser, FiCpu, FiChevronDown, FiChevronUp, FiClock } from 'react-icons/fi'
 
 function ChatMessage({ message }) {

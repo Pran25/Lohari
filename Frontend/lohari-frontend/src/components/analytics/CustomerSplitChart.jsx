@@ -1,4 +1,3 @@
-import React from 'react'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 
 const COLORS = ['#22d3ee', '#8b5cf6']
@@ -74,7 +73,7 @@ function CustomerSplitChart({ data, loading = false }) {
             ))}
           </Pie>
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
         </PieChart>
       </ResponsiveContainer>
 

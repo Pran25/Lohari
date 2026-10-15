@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import { useOfflineDetection } from './hooks/useOfflineDetection'
+import Loading from './components/common/Loading'
 import Navbar from './components/common/Navbar'
 import Footer from './components/common/Footer'
 import ProtectedRoute from './components/common/ProtectedRoute'
@@ -46,82 +47,17 @@ const OfflineHandler = () => {
   return null
 }
 
+const LandingPage = () => {
+  const { user } = useAuth()
+  return user ? <Home /> : <Login />
+}
+
 function App() {
   return (
     <Router>
       <AuthProvider>
         <CartProvider>
-          <div className="min-h-screen flex flex-col">
-            <OfflineHandler />
-            <Navbar />
-            <main className="flex-grow pt-20">
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/products/:slug" element={<ProductDetailPage />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/oauth2/callback" element={<OAuth2Callback />} />
-
-                {/* Protected Routes */}
-                <Route path="/profile" element={
-                  <ProtectedRoute><Profile /></ProtectedRoute>
-                } />
-                <Route path="/orders" element={
-                  <ProtectedRoute><Orders /></ProtectedRoute>
-                } />
-                <Route path="/orders/:id" element={
-                  <ProtectedRoute><OrderDetail /></ProtectedRoute>
-                } />
-                <Route path="/checkout" element={
-                  <ProtectedRoute><Checkout /></ProtectedRoute>
-                } />
-                <Route path="/cart" element={
-                  <ProtectedRoute><Cart /></ProtectedRoute>
-                } />
-                <Route path="/customize/:productId" element={
-                  <ProtectedRoute><CustomizationEngine /></ProtectedRoute>
-                } />
-                <Route path="/payment" element={
-                  <ProtectedRoute><PaymentPage /></ProtectedRoute>
-                } />
-
-                {/* ✅ Analytics Route (Admin Only) */}
-                <Route path="/analytics" element={
-                  <ProtectedRoute adminOnly>
-                    <AnalyticsDashboard />
-                  </ProtectedRoute>
-                } />
-
-                {/* ✅ AI Assistant Route (Admin Only) */}
-                <Route path="/ai-assistant" element={
-                  <ProtectedRoute adminOnly>
-                    <RagChat />
-                  </ProtectedRoute>
-                } />
-
-                {/* Admin Routes */}
-                <Route path="/admin" element={
-                  <ProtectedRoute adminOnly>
-                    <AdminLayout />
-                  </ProtectedRoute>
-                }>
-                  <Route index element={<AdminDashboard />} />
-                  <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="products" element={<AdminProducts />} />
-                  <Route path="orders" element={<AdminOrders />} />
-                  <Route path="categories" element={<AdminCategories />} />
-                  <Route path="users" element={<AdminUsers />} />
-                  <Route path="inquiries" element={<AdminInquiries />} />
-                  <Route path="coupons" element={<AdminCoupons />} />   {/* ✅ ADDED */}
-                </Route>
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <AppRoutes />
           <Toaster
             position="top-right"
             toastOptions={{
@@ -137,6 +73,104 @@ function App() {
         </CartProvider>
       </AuthProvider>
     </Router>
+  )
+}
+
+function AppRoutes() {
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (!user) {
+    return (
+      <>
+        <OfflineHandler />
+        <main className="min-h-screen">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </main>
+      </>
+    )
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <OfflineHandler />
+      <Navbar />
+      <main className="flex-grow pt-20">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/products" element={
+            <ProtectedRoute><Products /></ProtectedRoute>
+          } />
+          <Route path="/products/:slug" element={
+            <ProtectedRoute><ProductDetailPage /></ProtectedRoute>
+          } />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+
+          <Route path="/profile" element={
+            <ProtectedRoute><Profile /></ProtectedRoute>
+          } />
+          <Route path="/orders" element={
+            <ProtectedRoute><Orders /></ProtectedRoute>
+          } />
+          <Route path="/orders/:id" element={
+            <ProtectedRoute><OrderDetail /></ProtectedRoute>
+          } />
+          <Route path="/checkout" element={
+            <ProtectedRoute><Checkout /></ProtectedRoute>
+          } />
+          <Route path="/cart" element={
+            <ProtectedRoute><Cart /></ProtectedRoute>
+          } />
+          <Route path="/customize/:productId" element={
+            <ProtectedRoute><CustomizationEngine /></ProtectedRoute>
+          } />
+          <Route path="/payment" element={
+            <ProtectedRoute><PaymentPage /></ProtectedRoute>
+          } />
+
+          <Route path="/analytics" element={
+            <ProtectedRoute adminOnly>
+              <AnalyticsDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/ai-assistant" element={
+            <ProtectedRoute adminOnly>
+              <RagChat />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/admin" element={
+            <ProtectedRoute adminOnly>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<AdminDashboard />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="products/new" element={<AdminProducts key="new-product" startInCreateMode />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="inquiries" element={<AdminInquiries />} />
+            <Route path="coupons" element={<AdminCoupons />} />
+          </Route>
+          <Route path="*" element={<LandingPage />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   )
 }
 

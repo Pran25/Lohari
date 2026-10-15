@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   LineChart,
   Line,
@@ -96,7 +95,7 @@ function RevenueChart({ data = [], loading = false }) {
             tickFormatter={formatCurrency}
           />
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
 
           <Legend
             wrapperStyle={{ fontSize: '12px', color: '#ffffff80' }}

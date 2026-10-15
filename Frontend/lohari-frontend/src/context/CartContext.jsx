@@ -1,8 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
+import { createContext, useState, useContext, useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 const CartContext = createContext()
 
+// The context hook is intentionally exported alongside its provider.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => useContext(CartContext)
 
 export const CartProvider = ({ children }) => {
@@ -25,21 +27,16 @@ export const CartProvider = ({ children }) => {
             ? { ...item, quantity: item.quantity + quantity }
             : item
         )
-        toast.success('Quantity updated in cart')
         return updated
       }
       const newCart = [...prev, { ...product, quantity }]
-      toast.success('Added to cart!')
       return newCart
     })
   }
 
   const removeFromCart = (id) => {
-    setCartItems((prev) => {
-      const updated = prev.filter((item) => item.id !== id)
-      toast.success('Removed from cart')
-      return updated
-    })
+    setCartItems((prev) => prev.filter((item) => item.id !== id))
+    toast.success('Removed from cart')
   }
 
   const updateQuantity = (id, quantity) => {

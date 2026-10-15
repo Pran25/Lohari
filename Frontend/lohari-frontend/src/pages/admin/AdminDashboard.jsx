@@ -1,7 +1,42 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { FiPackage, FiShoppingBag, FiUsers, FiDollarSign } from 'react-icons/fi'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
+
+const loadDashboardStats = async () => {
+  try {
+    const response = await axios.get('/admin/dashboard/summary')
+    const data = response.data || {}
+    return {
+      totalProducts: data.totalProducts || data.products || 0,
+      totalOrders: data.totalOrders || data.orders || 0,
+      totalUsers: data.totalUsers || data.users || 0,
+      totalRevenue: data.totalRevenue || data.revenue || 0,
+    }
+  } catch (error) {
+    console.warn('⚠️ Dashboard summary failed, trying individual APIs:', error)
+  }
+
+  const endpoints = [
+    '/admin/products/count',
+    '/admin/orders/count',
+    '/admin/users/count',
+    '/admin/revenue/total',
+  ]
+  const results = await Promise.allSettled(endpoints.map((endpoint) => axios.get(endpoint)))
+  const values = results.map((result, index) => {
+    if (result.status === 'fulfilled') return result.value.data || 0
+    console.warn(`⚠️ Dashboard metric ${endpoints[index]} failed:`, result.reason)
+    return 0
+  })
+
+  return {
+    totalProducts: values[0],
+    totalOrders: values[1],
+    totalUsers: values[2],
+    totalRevenue: values[3],
+  }
+}
 
 function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -13,79 +48,11 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    fetchStats()
-  }, [])
-
   const fetchStats = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      setLoading(true)
-      setError(null)
-      
-      console.log('📊 Fetching admin stats...')
-      
-      // ✅ Try single API call first
-      try {
-        const response = await axios.get('/admin/dashboard/summary')
-        console.log('📊 Dashboard summary response:', response.data)
-        
-        const data = response.data || {}
-        setStats({
-          totalProducts: data.totalProducts || data.products || 0,
-          totalOrders: data.totalOrders || data.orders || 0,
-          totalUsers: data.totalUsers || data.users || 0,
-          totalRevenue: data.totalRevenue || data.revenue || 0,
-        })
-        return // Success - exit function
-      } catch (summaryError) {
-        console.warn('⚠️ Dashboard summary failed, trying individual APIs...')
-      }
-      
-      // ✅ Fallback: Individual APIs
-      let productsCount = 0
-      let ordersCount = 0
-      let usersCount = 0
-      let revenueTotal = 0
-
-      try {
-        const productsRes = await axios.get('/admin/products/count')
-        productsCount = productsRes.data || 0
-        console.log('✅ Products count:', productsCount)
-      } catch (e) {
-        console.warn('⚠️ Products count failed:', e.message)
-      }
-
-      try {
-        const ordersRes = await axios.get('/admin/orders/count')
-        ordersCount = ordersRes.data || 0
-        console.log('✅ Orders count:', ordersCount)
-      } catch (e) {
-        console.warn('⚠️ Orders count failed:', e.message)
-      }
-
-      try {
-        const usersRes = await axios.get('/admin/users/count')
-        usersCount = usersRes.data || 0
-        console.log('✅ Users count:', usersCount)
-      } catch (e) {
-        console.warn('⚠️ Users count failed:', e.message)
-      }
-
-      try {
-        const revenueRes = await axios.get('/admin/revenue/total')
-        revenueTotal = revenueRes.data || 0
-        console.log('✅ Revenue total:', revenueTotal)
-      } catch (e) {
-        console.warn('⚠️ Revenue count failed:', e.message)
-      }
-
-      setStats({
-        totalProducts: productsCount,
-        totalOrders: ordersCount,
-        totalUsers: usersCount,
-        totalRevenue: revenueTotal,
-      })
-
+      setStats(await loadDashboardStats())
     } catch (error) {
       console.error('❌ Error fetching stats:', error)
       setError(error.message)
@@ -94,6 +61,27 @@ function AdminDashboard() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    let active = true
+    loadDashboardStats()
+      .then((loadedStats) => {
+        if (active) setStats(loadedStats)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching stats:', error)
+        setError(error.message)
+        toast.error('Failed to load dashboard stats')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const cards = [
     { title: 'Total Products', value: stats.totalProducts, icon: FiPackage, color: 'from-blue-500 to-blue-600' },

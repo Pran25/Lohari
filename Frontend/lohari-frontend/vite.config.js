@@ -5,6 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    watch: {
+      usePolling: true
+    },
     proxy: {
       '/oauth2/authorization': {
         target: 'http://localhost:8081',

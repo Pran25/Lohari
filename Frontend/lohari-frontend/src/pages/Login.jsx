@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { FcGoogle } from 'react-icons/fc'
@@ -7,18 +7,23 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const submitting = useRef(false)
   const { login } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (submitting.current) return
+
+    submitting.current = true
     setLoading(true)
     try {
       await login(email, password)
       navigate('/')
-    } catch (error) {
+    } catch {
       // Error handled in context
     } finally {
+      submitting.current = false
       setLoading(false)
     }
   }
@@ -29,7 +34,36 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-20 px-4">
-      <div className="glass p-8 rounded-2xl max-w-md w-full card-3d">
+      <div className="grid w-full max-w-6xl items-center gap-8 lg:grid-cols-2">
+        <section className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/60 shadow-2xl">
+          <div className="aspect-video bg-slate-950">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              controls
+              poster="/images/LohariAdvertisement.png"
+              className="h-full w-full object-cover"
+            >
+              <source src="/videos/LOHARI_modern_fabrication_ad.mp4" type="video/mp4" />
+              Your browser does not support embedded videos.
+            </video>
+          </div>
+          <div className="p-5 sm:p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-400">
+              Lohari Fabrication
+            </p>
+            <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+              See what we can create for you.
+            </h1>
+            <p className="mt-2 text-sm leading-relaxed text-white/60">
+              Watch our fabrication film, then sign in to explore the collection and start your project.
+            </p>
+          </div>
+        </section>
+
+        <div className="glass p-8 rounded-2xl max-w-md w-full card-3d justify-self-center">
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary to-purple-500 
                         flex items-center justify-center text-2xl font-bold text-white mx-auto
@@ -96,6 +130,7 @@ function Login() {
             </Link>
           </p>
         </div>
+      </div>
       </div>
     </div>
   )

@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { FiHome, FiPackage, FiShoppingBag, FiUsers, FiTag, FiMail } from 'react-icons/fi'
 

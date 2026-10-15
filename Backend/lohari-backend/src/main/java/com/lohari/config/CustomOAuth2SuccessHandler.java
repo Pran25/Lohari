@@ -42,6 +42,10 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
 
         // ✅ Save or update user
         User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null && !Boolean.TRUE.equals(user.getIsActive())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
 
         if (user == null) {
             user = new User();

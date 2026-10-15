@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
 import Loading from '../../components/common/Loading'
@@ -8,11 +8,7 @@ function AdminInquiries() {
   const [inquiries, setInquiries] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchInquiries()
-  }, [])
-
-  const fetchInquiries = async () => {
+  const fetchInquiries = useCallback(async () => {
     try {
       setLoading(true)
       console.log('📊 Fetching inquiries...')
@@ -29,7 +25,28 @@ function AdminInquiries() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    axios.get('/inquiries/admin/all')
+      .then((response) => {
+        if (active) setInquiries(response.data || [])
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching inquiries:', error)
+        toast.error('Failed to load inquiries')
+        setInquiries([])
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const deleteInquiry = async (id) => {
     if (!confirm('Are you sure you want to delete this inquiry?')) return
@@ -37,7 +54,7 @@ function AdminInquiries() {
       await axios.delete(`/inquiries/admin/${id}`)
       toast.success('Inquiry deleted!')
       fetchInquiries()
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete inquiry')
     }
   }
@@ -47,7 +64,7 @@ function AdminInquiries() {
       await axios.patch(`/inquiries/admin/${id}/read`)
       toast.success('Marked as read!')
       fetchInquiries()
-    } catch (error) {
+    } catch {
       toast.error('Failed to update')
     }
   }

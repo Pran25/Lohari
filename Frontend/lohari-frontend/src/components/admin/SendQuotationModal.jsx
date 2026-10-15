@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
-  FiX, FiSend, FiPackage, FiDollarSign,
+  FiX, FiSend, FiPackage,
   FiTrendingUp, FiInfo,
 } from 'react-icons/fi'
 import { generateQuotation } from '../../api/quotationApi'
@@ -22,24 +22,6 @@ function SendQuotationModal({ isOpen, onClose, order }) {
     validityDays: 15,
     notes: '',
   })
-
-  // Reset on open
-  useEffect(() => {
-    if (isOpen && order) {
-      setForm({
-        weightPerItemKg: 25,
-        ratePerKg: 100,
-        labourCharges: 2000,
-        designCharges: 500,
-        transportCharges: 0,
-        profitPercent: 15,
-        gstPercent: 18,
-        advancePercent: 30,
-        validityDays: 15,
-        notes: '',
-      })
-    }
-  }, [isOpen, order])
 
   // Real-time calculation
   const calc = (() => {
@@ -128,7 +110,7 @@ function SendQuotationModal({ isOpen, onClose, order }) {
   if (!isOpen || !order) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div key={order.id || 'new-order'} className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
       <div
         className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"

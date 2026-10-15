@@ -1,36 +1,31 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   FiBell, FiX, FiCheck, FiPackage, FiDollarSign,
-  FiInbox, FiAlertCircle, FiTrash2,
+  FiInbox, FiAlertCircle, FiTrash2, FiMapPin, FiMail,
 } from 'react-icons/fi'
-import { getRecentOrders } from '../../api/notificationApi'
+import { getRecentInquiries, getRecentOrders } from '../../api/notificationApi'
+import { useAuth } from '../../context/AuthContext'
 
 const STORAGE_KEY = 'lohari_seen_order_ids'
+const INQUIRY_STORAGE_KEY = 'lohari_seen_inquiry_ids'
 const NOTIF_KEY = 'lohari_notifications'
 const POLL_INTERVAL = 30000 // 30 sec
 
 function NotificationBell() {
-  const [notifications, setNotifications] = useState([])
+  const { user } = useAuth()
+  const [notifications, setNotifications] = useState(() => {
+    try {
+      const saved = localStorage.getItem(NOTIF_KEY)
+      return saved ? JSON.parse(saved).slice(0, 50) : []
+    } catch {
+      return []
+    }
+  })
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef(null)
   const navigate = useNavigate()
-
-  // ============================================
-  // LOAD FROM LOCALSTORAGE
-  // ============================================
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(NOTIF_KEY)
-      if (saved) {
-        const parsed = JSON.parse(saved)
-        // Keep only last 50
-        setNotifications(parsed.slice(0, 50))
-      }
-    } catch {
-      // ignore
-    }
-  }, [])
+  const isAdmin = user?.role === 'ADMIN'
 
   // ============================================
   // SAVE TO LOCALSTORAGE
@@ -53,6 +48,47 @@ function NotificationBell() {
     document.addEventListener('mousedown', onClick)
     return () => document.removeEventListener('mousedown', onClick)
   }, [])
+
+  const checkForNewInquiries = useCallback(async () => {
+    if (!isAdmin) return
+
+    const inquiries = await getRecentInquiries(10)
+    if (inquiries.length === 0) return
+
+    let seenIds = []
+    try {
+      const saved = localStorage.getItem(INQUIRY_STORAGE_KEY)
+      const parsedIds = saved ? JSON.parse(saved) : []
+      seenIds = Array.isArray(parsedIds) ? parsedIds : []
+    } catch {
+      seenIds = []
+    }
+
+    const newNotifs = inquiries
+      .filter((inquiry) => inquiry.id && !seenIds.includes(inquiry.id))
+      .map((inquiry) => {
+        const isSiteVisit = inquiry.inquiryType?.toLowerCase() === 'fitting'
+        const schedule = [inquiry.preferredDate, inquiry.preferredTime]
+          .filter(Boolean)
+          .join(' at ')
+        return {
+          id: `inquiry-${inquiry.id}`,
+          inquiryId: inquiry.id,
+          type: isSiteVisit ? 'site-visit' : 'inquiry',
+          title: isSiteVisit ? 'New site visit request' : 'New customer inquiry',
+          message: `${inquiry.name || 'A customer'}${schedule ? ` requested ${schedule}` : ' sent a message'}`,
+          timestamp: inquiry.createdAt || new Date().toISOString(),
+          read: false,
+        }
+      })
+
+    if (newNotifs.length > 0) {
+      const notifiedIds = new Set(newNotifs.map((notification) => notification.inquiryId))
+      const updatedSeenIds = [...seenIds, ...notifiedIds]
+      localStorage.setItem(INQUIRY_STORAGE_KEY, JSON.stringify(updatedSeenIds.slice(-200)))
+      setNotifications((prev) => [...newNotifs, ...prev].slice(0, 50))
+    }
+  }, [isAdmin])
 
   // ============================================
   // CHECK FOR NEW ORDERS (polling)
@@ -130,6 +166,18 @@ function NotificationBell() {
     }
   }, [checkForNewOrders])
 
+  useEffect(() => {
+    if (!isAdmin) return undefined
+
+    const timeout = setTimeout(checkForNewInquiries, 2000)
+    const interval = setInterval(checkForNewInquiries, POLL_INTERVAL)
+
+    return () => {
+      clearTimeout(timeout)
+      clearInterval(interval)
+    }
+  }, [checkForNewInquiries, isAdmin])
+
   // ============================================
   // HANDLERS
   // ============================================
@@ -155,6 +203,8 @@ function NotificationBell() {
     setIsOpen(false)
     if (notif.orderId) {
       navigate(`/orders/${notif.orderId}`)
+    } else if (notif.inquiryId) {
+      navigate('/admin/inquiries')
     }
   }
 
@@ -183,6 +233,10 @@ function NotificationBell() {
         return <FiDollarSign size={14} />
       case 'order':
         return <FiPackage size={14} />
+      case 'site-visit':
+        return <FiMapPin size={14} />
+      case 'inquiry':
+        return <FiMail size={14} />
       default:
         return <FiAlertCircle size={14} />
     }
@@ -195,6 +249,10 @@ function NotificationBell() {
         return 'text-emerald-400 bg-emerald-400/[0.12] border-emerald-400/25'
       case 'order':
         return 'text-cyan-400 bg-cyan-400/[0.12] border-cyan-400/25'
+      case 'site-visit':
+        return 'text-purple-400 bg-purple-400/[0.12] border-purple-400/25'
+      case 'inquiry':
+        return 'text-amber-400 bg-amber-400/[0.12] border-amber-400/25'
       default:
         return 'text-amber-400 bg-amber-400/[0.12] border-amber-400/25'
     }
@@ -268,7 +326,7 @@ function NotificationBell() {
                   No notifications yet
                 </p>
                 <p className="text-slate-500 text-xs mt-1">
-                  You'll see new orders here
+                  You'll see new orders and inquiries here
                 </p>
               </div>
             ) : (

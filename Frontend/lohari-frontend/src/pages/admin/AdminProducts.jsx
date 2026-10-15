@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FiEdit2, FiTrash2, FiPlus, FiX, FiSave } from 'react-icons/fi'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
 import Loading from '../../components/common/Loading'
 
-function AdminProducts() {
+function AdminProducts({ startInCreateMode = false }) {
+  const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showForm, setShowForm] = useState(false)
+  const [showForm, setShowForm] = useState(startInCreateMode)
   const [editing, setEditing] = useState(null)
   const [saving, setSaving] = useState(false)
 
@@ -64,45 +66,62 @@ function AdminProducts() {
   const [materials, setMaterials] = useState([])
   const [finishes, setFinishes] = useState([])
 
-  useEffect(() => {
-    fetchProducts()
-    fetchCategories()
-    fetchMaterials()
-    fetchFinishes()
-  }, [])
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true)
       const res = await axios.get('/products')
       setProducts(res.data.content || res.data || [])
-    } catch (error) {
+    } catch {
       toast.error('Failed to load products')
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const fetchCategories = async () => {
-    try {
-      const res = await axios.get('/categories')
-      setCategories(res.data.content || res.data || [])
-    } catch {}
-  }
+  useEffect(() => {
+    let active = true
+    Promise.allSettled([
+      axios.get('/products'),
+      axios.get('/categories'),
+      axios.get('/materials'),
+      axios.get('/finishes'),
+    ])
+      .then(([productsResult, categoriesResult, materialsResult, finishesResult]) => {
+        if (!active) return
+        if (productsResult.status === 'fulfilled') {
+          const data = productsResult.value.data
+          setProducts(data.content || data || [])
+        } else {
+          console.error('Failed to load products:', productsResult.reason)
+          toast.error('Failed to load products')
+        }
+        if (categoriesResult.status === 'fulfilled') {
+          const data = categoriesResult.value.data
+          setCategories(data.content || data || [])
+        } else {
+          console.error('Failed to load categories:', categoriesResult.reason)
+        }
+        if (materialsResult.status === 'fulfilled') {
+          const data = materialsResult.value.data
+          setMaterials(data.content || data || [])
+        } else {
+          console.error('Failed to load materials:', materialsResult.reason)
+        }
+        if (finishesResult.status === 'fulfilled') {
+          const data = finishesResult.value.data
+          setFinishes(data.content || data || [])
+        } else {
+          console.error('Failed to load finishes:', finishesResult.reason)
+        }
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
 
-  const fetchMaterials = async () => {
-    try {
-      const res = await axios.get('/materials')
-      setMaterials(res.data.content || res.data || [])
-    } catch {}
-  }
-
-  const fetchFinishes = async () => {
-    try {
-      const res = await axios.get('/finishes')
-      setFinishes(res.data.content || res.data || [])
-    } catch {}
-  }
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -154,7 +173,8 @@ function AdminProducts() {
       setShowForm(false)
       setEditing(null)
       setFormData(emptyForm)
-      fetchProducts()
+      if (startInCreateMode) navigate('/admin/products')
+      else fetchProducts()
     } catch (error) {
       console.error('Save error:', error)
       toast.error(error.response?.data?.message || 'Failed to save product')
@@ -211,7 +231,7 @@ function AdminProducts() {
       await axios.delete(`/admin/products/${id}`)
       toast.success('Product deleted!')
       fetchProducts()
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete')
     }
   }
@@ -220,6 +240,7 @@ function AdminProducts() {
     setShowForm(false)
     setEditing(null)
     setFormData(emptyForm)
+    if (startInCreateMode) navigate('/admin/products')
   }
 
   if (loading) return <Loading />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
@@ -20,7 +20,6 @@ import {
 function AdminOrders() {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   const [search, setSearch] = useState('')
@@ -36,14 +35,9 @@ function AdminOrders() {
   const [discountOrder, setDiscountOrder] = useState(null)
   const [showDiscountModal, setShowDiscountModal] = useState(false)
 
-  useEffect(() => {
-    fetchOrders()
-  }, [])
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       setLoading(true)
-      setError(null)
       const response = await axios.get('/orders')
 
       let orderList = []
@@ -56,7 +50,6 @@ function AdminOrders() {
       setOrders(orderList)
     } catch (error) {
       console.error('❌ Error fetching orders:', error)
-      setError(error.message)
       if (error.response?.status !== 404) {
         toast.error('Failed to load orders')
       }
@@ -64,7 +57,34 @@ function AdminOrders() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    axios.get('/orders')
+      .then((response) => {
+        if (!active) return
+        const orderList = Array.isArray(response.data?.content)
+          ? response.data.content
+          : Array.isArray(response.data)
+            ? response.data
+            : []
+        setOrders(orderList)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching orders:', error)
+        if (error.response?.status !== 404) toast.error('Failed to load orders')
+        setOrders([])
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const updateStatus = async (id, status) => {
     try {
@@ -219,8 +239,7 @@ function AdminOrders() {
     }
   }
 
-  const filteredOrders = useMemo(() => {
-    return orders.filter((o) => {
+  const filteredOrders = orders.filter((o) => {
       if (search.trim()) {
         const q = search.toLowerCase().trim()
         const searchable = [
@@ -246,8 +265,7 @@ function AdminOrders() {
       }
 
       return true
-    })
-  }, [orders, search, statusFilter, dateFrom, dateTo])
+  })
 
   const resetFilters = () => {
     setSearch('')
@@ -569,6 +587,7 @@ function AdminOrders() {
 
       {/* ✅ NEW: Discount Modal */}
       <AdminDiscount
+        key={showDiscountModal ? discountOrder?.id : 'closed'}
         isOpen={showDiscountModal}
         onClose={closeDiscountModal}
         order={discountOrder}

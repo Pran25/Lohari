@@ -25,8 +25,9 @@ export const exportToCSV = (data, filename, columns, options = {}) => {
   // ============================================
   if (title) {
     lines.push(`"${title}"`)
-    lines.push('') // blank row
   }
+  if (subtitle) lines.push(`"${subtitle}"`)
+  if (title || subtitle) lines.push('') // blank row
 
   // ============================================
   // SUBTITLE / FILTER INFO
@@ -101,14 +102,10 @@ export const exportToCSV = (data, filename, columns, options = {}) => {
   data.forEach((item, index) => {
     const row = columns
       .map((col) => {
-        let value = ''
-
         // Support nested keys
-        if (col.key.includes('.')) {
-          value = col.key.split('.').reduce((obj, k) => obj?.[k], item)
-        } else {
-          value = item[col.key]
-        }
+        let value = col.key.includes('.')
+          ? col.key.split('.').reduce((obj, k) => obj?.[k], item)
+          : item[col.key]
 
         // Apply formatter
         if (col.format) {

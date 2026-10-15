@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
@@ -85,7 +84,7 @@ function RevenueGrowthChart({ data = [], loading = false }) {
             tick={{ fill: '#ffffff80' }}
             tickFormatter={formatCurrency}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Legend
             wrapperStyle={{ fontSize: '12px', color: '#ffffff80' }}
             iconType="circle"

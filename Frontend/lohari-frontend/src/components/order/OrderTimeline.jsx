@@ -1,4 +1,3 @@
-import React from 'react'
 import { 
   FiPackage, FiClock, FiCheckCircle, FiXCircle, FiTruck, 
   FiTool, FiDollarSign, FiMapPin, FiCalendar 

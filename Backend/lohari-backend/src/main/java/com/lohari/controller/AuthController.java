@@ -99,8 +99,14 @@ public class AuthController {
                         .body(Map.of("success", false, "message", "Invalid or expired refresh token"));
             }
 
-            String newAccessToken = jwtUtil.refreshAccessToken(refreshToken);
             String email = jwtUtil.extractEmail(refreshToken);
+            User user = userService.findByEmail(email).orElse(null);
+            if (user == null || !Boolean.TRUE.equals(user.getIsActive())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("success", false, "message", "Invalid or expired refresh token"));
+            }
+
+            String newAccessToken = jwtUtil.refreshAccessToken(refreshToken);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);

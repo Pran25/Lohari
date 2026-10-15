@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
@@ -70,7 +69,7 @@ function DailyOrdersChart({ data = [], loading = false }) {
             tick={{ fill: '#ffffff80' }}
             allowDecimals={false}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Legend
             wrapperStyle={{ fontSize: '12px', color: '#ffffff80' }}
             iconType="circle"

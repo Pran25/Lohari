@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
@@ -8,8 +8,11 @@ function OAuth2Callback() {
   const navigate = useNavigate()
   const location = useLocation()
   const { setUser } = useAuth()
+  const callbackProcessed = useRef(false)
 
   useEffect(() => {
+    if (callbackProcessed.current) return
+    callbackProcessed.current = true
 
     const params = new URLSearchParams(location.search)
 
@@ -41,7 +44,7 @@ function OAuth2Callback() {
     // ✅ Update React state immediately
     setUser(user)
 
-    toast.success(`Welcome ${user.fullName}`)
+    toast.success(`Welcome ${user.fullName}`, { id: 'oauth-welcome' })
 
     navigate('/', { replace: true })
 

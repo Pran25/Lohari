@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   FiArrowLeft, FiMapPin, FiUser, FiMail, FiPhone,
-  FiClock, FiCheckCircle, FiXCircle, FiTruck, FiTool, FiDollarSign,
+  FiDollarSign,
   FiTag, FiGift,
 } from 'react-icons/fi'
 import { getOrderById, getOrderTracking } from '../api/order'
@@ -18,26 +18,29 @@ function OrderDetail() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchOrderDetails()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
-
-  const fetchOrderDetails = async () => {
-    try {
-      setLoading(true)
-      const [orderData, trackingData] = await Promise.all([
+    let active = true
+    Promise.all([
         getOrderById(id),
         getOrderTracking(id),
       ])
-      setOrder(orderData)
-      setTracking(trackingData || [])
-    } catch (error) {
-      console.error('Error fetching order:', error)
-      toast.error('Failed to load order details')
-    } finally {
-      setLoading(false)
+      .then(([orderData, trackingData]) => {
+        if (!active) return
+        setOrder(orderData)
+        setTracking(trackingData || [])
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('Error fetching order:', error)
+        toast.error('Failed to load order details')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
     }
-  }
+  }, [id])
 
   const getStatusColor = (status) => {
     switch (status?.toUpperCase()) {

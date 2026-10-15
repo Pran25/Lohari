@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { FiUser, FiMail, FiPhone, FiShield } from 'react-icons/fi'
 

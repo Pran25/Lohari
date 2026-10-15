@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -71,7 +70,7 @@ function CityChart({ data = [], loading = false }) {
             tick={{ fill: '#ffffff80' }}
             width={80}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: '#ffffff05' }} />
+          <Tooltip content={CustomTooltip} cursor={{ fill: '#ffffff05' }} />
           <Bar
             dataKey="orderCount"
             name="Orders"

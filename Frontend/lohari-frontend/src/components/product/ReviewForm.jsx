@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
 import { FiStar } from 'react-icons/fi'

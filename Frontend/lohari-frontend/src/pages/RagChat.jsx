@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   FiSend, FiRefreshCw, FiCpu, FiDatabase,
   FiZap, FiTrendingUp, FiPackage, FiDollarSign,
-  FiClock, FiUsers,
+  FiClock,
 } from 'react-icons/fi'
 import toast from 'react-hot-toast'
 import { askQuestion, syncData } from '../api/ragApi'

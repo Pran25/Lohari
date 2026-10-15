@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity   // ✅ ADDED — @PreAuthorize kaam karne ke liye
 public class SecurityConfig {
 
     @Autowired
@@ -35,24 +37,34 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                // ✅ PUBLIC ENDPOINTS — bina login ke accessible
                 .requestMatchers(
                     "/api/auth/**",
+                    "/api/inquiries",
                     "/api/products/**",
                     "/api/categories/**",
                     "/api/materials/**",
                     "/api/finishes/**",
-                    "/api/orders/**",
-                    "/api/admin/**",
-                    "/api/analytics/**",
-                    "/api/public/**", 
-                    "/api/invoices/**",
-                    "/api/quotations/**", 
-                    "/api/coupons/**",  
-                    "/api/rag/**",              // ✅ ADDED — RAG endpoints
+                    "/api/public/**",
+                    "/api/rag/**",
                     "/oauth2/**",
                     "/login/**",
                     "/error"
                 ).permitAll()
+
+                // 🔒 ADMIN ONLY
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                // 🔐 LOGIN REQUIRED (regular users)
+                .requestMatchers(
+                    "/api/orders/**",
+                    "/api/invoices/**",
+                    "/api/quotations/**",
+                    "/api/coupons/**",
+                    "/api/analytics/**"
+                ).authenticated()
+
+                // baaki sab bhi login zaroori
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth -> oauth

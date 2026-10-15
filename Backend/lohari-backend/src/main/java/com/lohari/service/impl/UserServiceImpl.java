@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,16 +41,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginUser(String email, String password) {  // ✅ Changed: returns User
+    public User loginUser(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        if (!Boolean.TRUE.equals(user.getIsActive())) {
+            throw new RuntimeException("User account is inactive.");
+        }
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             throw new RuntimeException("Invalid password!");
         }
 
         user.setLastLogin(LocalDateTime.now());
-        return userRepository.save(user);  // ✅ Returns User object
+        return userRepository.save(user);
     }
 
     @Override
@@ -89,5 +94,54 @@ public class UserServiceImpl implements UserService {
     @Override
     public String refreshAccessToken(String refreshToken) {
         return jwtUtil.refreshAccessToken(refreshToken);
+    }
+
+    // ============================================
+    // ✅ NEW ADMIN METHODS
+    // ============================================
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found: " + id));
+
+        // Soft delete — FK constraint se bachne ke liye
+        // Agar tum hard delete chahte ho toh niche comment dekho
+        user.setIsActive(false);
+        userRepository.save(user);
+
+        // ⚠️ HARD DELETE (agar orders/invoices nahi hain user ke paas):
+        // userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public void changeRole(Long id, String role) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found: " + id));
+
+        // Validate role
+        if (!role.equals("CUSTOMER") && !role.equals("ADMIN") && !role.equals("STAFF")) {
+            throw new RuntimeException("Invalid role: " + role);
+        }
+
+        user.setRole(role);
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void toggleStatus(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found: " + id));
+
+        user.setIsActive(!Boolean.TRUE.equals(user.getIsActive()));
+        userRepository.save(user);
     }
 }

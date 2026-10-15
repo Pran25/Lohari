@@ -220,12 +220,9 @@ export const exportToExcel = async (data, filename, columns, options = {}) => {
   // DATA ROWS
   data.forEach((item, rowIdx) => {
     const values = columns.map((col) => {
-      let v = ''
-      if (col.key.includes('.')) {
-        v = col.key.split('.').reduce((o, k) => o?.[k], item)
-      } else {
-        v = item[col.key]
-      }
+      let v = col.key.includes('.')
+        ? col.key.split('.').reduce((o, k) => o?.[k], item)
+        : item[col.key]
 
       if (col.format) {
         v = col.format(v, item, rowIdx)
@@ -281,12 +278,9 @@ export const exportToExcel = async (data, filename, columns, options = {}) => {
   columns.forEach((col, idx) => {
     let maxLen = col.label.length
     data.forEach((item) => {
-      let v = ''
-      if (col.key.includes('.')) {
-        v = col.key.split('.').reduce((o, k) => o?.[k], item)
-      } else {
-        v = item[col.key]
-      }
+      let v = col.key.includes('.')
+        ? col.key.split('.').reduce((o, k) => o?.[k], item)
+        : item[col.key]
       if (col.format) v = col.format(v, item)
       else v = v != null ? String(v) : ''
       maxLen = Math.max(maxLen, v.length)

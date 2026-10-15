@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import axios from '../../api/axios'
 import RatingStars from './RatingStars'
 import { FiCheckCircle, FiClock } from 'react-icons/fi'
@@ -7,32 +7,34 @@ function ReviewsList({ productId }) {
   const [reviews, setReviews] = useState([])
   const [averageRating, setAverageRating] = useState(0)
   const [totalReviews, setTotalReviews] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loadedProductId, setLoadedProductId] = useState(null)
+  const loading = loadedProductId !== productId
 
-  // ✅ Define fetchReviews FIRST using useCallback
-  const fetchReviews = useCallback(async () => {
+  useEffect(() => {
     if (!productId) return
-    
-    try {
-      setLoading(true)
-      const response = await axios.get(`/reviews/product/${productId}`)
-      setReviews(response.data.reviews || [])
-      setAverageRating(response.data.averageRating || 0)
-      setTotalReviews(response.data.totalReviews || 0)
-    } catch (error) {
-      console.error('Error fetching reviews:', error)
-      setReviews([])
-      setAverageRating(0)
-      setTotalReviews(0)
-    } finally {
-      setLoading(false)
+    let active = true
+
+    axios.get(`/reviews/product/${productId}`)
+      .then(({ data }) => {
+        if (!active) return
+        setReviews(data.reviews || [])
+        setAverageRating(data.averageRating || 0)
+        setTotalReviews(data.totalReviews || 0)
+        setLoadedProductId(productId)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('Error fetching reviews:', error)
+        setReviews([])
+        setAverageRating(0)
+        setTotalReviews(0)
+        setLoadedProductId(productId)
+      })
+
+    return () => {
+      active = false
     }
   }, [productId])
-
-  // ✅ Then useEffect
-  useEffect(() => {
-    fetchReviews()
-  }, [fetchReviews])
 
   if (loading) {
     return (

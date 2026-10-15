@@ -1,4 +1,3 @@
-import React from 'react'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 
 const COLORS = ['#22d3ee', '#6366f1', '#f59e0b', '#ec4899', '#10b981']
@@ -75,7 +74,7 @@ function PaymentMethodsChart({ data = [], loading = false }) {
             ))}
           </Pie>
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
         </PieChart>
       </ResponsiveContainer>
 

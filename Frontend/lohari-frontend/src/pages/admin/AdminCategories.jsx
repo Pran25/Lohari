@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { FiEdit2, FiTrash2, FiPlus, FiX, FiCheck } from 'react-icons/fi'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
@@ -12,11 +12,7 @@ function AdminCategories() {
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({ name: '', slug: '', description: '' })
 
-  useEffect(() => {
-    fetchCategories()
-  }, [])
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       setLoading(true)
       console.log('📊 Fetching categories...')
@@ -40,7 +36,34 @@ function AdminCategories() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    axios.get('/categories')
+      .then((response) => {
+        if (!active) return
+        const categoryList = Array.isArray(response.data)
+          ? response.data
+          : Array.isArray(response.data?.content)
+            ? response.data.content
+            : []
+        setCategories(categoryList)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching categories:', error)
+        toast.error('Failed to load categories')
+        setCategories([])
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

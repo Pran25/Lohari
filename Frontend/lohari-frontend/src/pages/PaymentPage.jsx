@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import {
   FiCreditCard, FiLock, FiShield, FiCheckCircle,
-  FiArrowLeft, FiPackage, FiDollarSign,
+  FiArrowLeft, FiPackage,
 } from 'react-icons/fi'
 import RazorpayCheckout from '../components/payment/RazorpayCheckout'
 import toast from 'react-hot-toast'

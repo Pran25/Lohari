@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FiPackage, FiClock, FiCheckCircle, FiXCircle, FiTruck, FiEye, FiTool, FiMapPin, FiDollarSign } from 'react-icons/fi'
 import { getOrders } from '../api/order'
@@ -10,31 +10,31 @@ function Orders() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchOrders()
-  }, [])
+    let active = true
+    getOrders()
+      .then((data) => {
+        if (!active) return
+        const orderList = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.content)
+            ? data.content
+            : []
+        setOrders(orderList)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('Error fetching orders:', error)
+        toast.error('Failed to load orders')
+        setOrders([])
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
 
-  const fetchOrders = async () => {
-    try {
-      setLoading(true)
-      const data = await getOrders()
-      
-      // ✅ Handle different response formats
-      let orderList = []
-      if (Array.isArray(data)) {
-        orderList = data
-      } else if (data && data.content && Array.isArray(data.content)) {
-        orderList = data.content
-      }
-      
-      setOrders(orderList)
-    } catch (error) {
-      console.error('Error fetching orders:', error)
-      toast.error('Failed to load orders')
-      setOrders([])
-    } finally {
-      setLoading(false)
+    return () => {
+      active = false
     }
-  }
+  }, [])
 
   const getStatusIcon = (status) => {
     switch (status?.toUpperCase()) {

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, useCallback } from 'react'
+import { createContext, useState, useContext, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   login as loginAPI,
@@ -10,6 +10,8 @@ import toast from 'react-hot-toast'
 
 const AuthContext = createContext()
 
+// The context hook is intentionally exported alongside its provider.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
@@ -22,14 +24,13 @@ export const AuthProvider = ({ children }) => {
     return savedUser ? JSON.parse(savedUser) : null
   })
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(() => Boolean(localStorage.getItem('accessToken')))
 
   // ✅ Verify token on app startup
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
 
     if (!token) {
-      setLoading(false)
       return
     }
 
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(loggedInUser))
         setUser(loggedInUser)
 
-        toast.success('Login successful!')
+        toast.success('Login successful!', { id: 'login-success' })
         return response
       }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 import toast from 'react-hot-toast'
@@ -44,7 +44,6 @@ function CustomizationEngine() {
     cadDrawingUrl: ''
   })
 
-  const [priceEstimate, setPriceEstimate] = useState(0)
   const [uploadedImages, setUploadedImages] = useState([])
 
   const materials = [
@@ -72,20 +71,22 @@ function CustomizationEngine() {
   ]
 
   useEffect(() => {
-    fetchProduct()
-  }, [productId])
+    let active = true
+    axios.get(`/products/${productId}`)
+      .then((response) => {
+        if (active) setProduct(response.data)
+      })
+      .catch(() => {
+        if (active) toast.error('Product not found')
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
 
-  const fetchProduct = async () => {
-    try {
-      setLoading(true)
-      const response = await axios.get(`/products/${productId}`)
-      setProduct(response.data)
-    } catch (error) {
-      toast.error('Product not found')
-    } finally {
-      setLoading(false)
+    return () => {
+      active = false
     }
-  }
+  }, [productId])
 
   const calculatePrice = () => {
     // Base calculation
@@ -93,11 +94,9 @@ function CustomizationEngine() {
     let materialCost = 0
     let finishCost = 0
     let extraCost = 0
-    let sizeMultiplier = 1
-
     // Size impact
     const area = config.width * config.height
-    sizeMultiplier = area / 24 // Default 6x4 = 24 sqft
+    const sizeMultiplier = area / 24 // Default 6x4 = 24 sqft
 
     // Material cost
     const selectedMaterial = materials.find(m => m.name === config.material)
@@ -117,15 +116,10 @@ function CustomizationEngine() {
     if (config.extras.decorative) extraCost += 1200
 
     const total = (basePrice * sizeMultiplier) + materialCost + finishCost + extraCost
-    setPriceEstimate(Math.round(total))
     return Math.round(total)
   }
 
-  useEffect(() => {
-    if (product) {
-      calculatePrice()
-    }
-  }, [config, product])
+  const priceEstimate = calculatePrice()
 
   const handleNext = () => {
     if (step < 5) setStep(step + 1)
@@ -168,7 +162,7 @@ function CustomizationEngine() {
       })
       setUploadedImages([...uploadedImages, ...response.data.urls])
       toast.success('Images uploaded!')
-    } catch (error) {
+    } catch {
       toast.error('Failed to upload images')
     }
   }
@@ -199,7 +193,7 @@ function CustomizationEngine() {
       
       // Navigate to quote page
       navigate(`/quote/${response.data.id}`)
-    } catch (error) {
+    } catch {
       toast.error('Failed to save configuration')
     } finally {
       setLoading(false)

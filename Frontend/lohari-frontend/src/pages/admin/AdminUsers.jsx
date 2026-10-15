@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { FiEdit2, FiTrash2, FiUserCheck, FiUserX } from 'react-icons/fi'
+import { useState, useEffect, useCallback } from 'react'
+import { FiTrash2, FiUserCheck, FiUserX } from 'react-icons/fi'
 import axios from '../../api/axios'
 import toast from 'react-hot-toast'
 import Loading from '../../components/common/Loading'
@@ -8,16 +8,11 @@ function AdminUsers() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true)
       console.log('📊 Fetching admin users...')
       
-      // ✅ Use the correct endpoint
       const response = await axios.get('/admin/users')
       console.log('📦 Users response:', response.data)
       
@@ -43,7 +38,38 @@ function AdminUsers() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    axios.get('/admin/users')
+      .then((response) => {
+        if (!active) return
+        const userList = Array.isArray(response.data)
+          ? response.data
+          : Array.isArray(response.data?.content)
+            ? response.data.content
+            : []
+        setUsers(userList)
+      })
+      .catch((error) => {
+        if (!active) return
+        console.error('❌ Error fetching users:', error)
+        if (error.response?.status === 403) {
+          toast.error('Access denied. Admin login required.')
+        } else if (error.response?.status !== 404) {
+          toast.error('Failed to load users')
+        }
+        setUsers([])
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const toggleUserStatus = async (id, currentStatus) => {
     try {
@@ -51,7 +77,11 @@ function AdminUsers() {
       toast.success(`User ${currentStatus ? 'deactivated' : 'activated'} successfully!`)
       fetchUsers()
     } catch (error) {
-      toast.error('Failed to update user status')
+      console.error('❌ Toggle status failed:', error.response?.data || error.message)
+      const msg = error.response?.data?.message
+               || error.response?.data?.error
+               || 'Failed to update user status'
+      toast.error(msg)
     }
   }
 
@@ -61,7 +91,11 @@ function AdminUsers() {
       toast.success('User role updated!')
       fetchUsers()
     } catch (error) {
-      toast.error('Failed to update role')
+      console.error('❌ Change role failed:', error.response?.data || error.message)
+      const msg = error.response?.data?.message
+               || error.response?.data?.error
+               || 'Failed to update role'
+      toast.error(msg)
     }
   }
 
@@ -72,7 +106,11 @@ function AdminUsers() {
       toast.success('User deleted!')
       fetchUsers()
     } catch (error) {
-      toast.error('Failed to delete user')
+      console.error('❌ Delete failed:', error.response?.data || error.message)
+      const msg = error.response?.data?.message
+               || error.response?.data?.error
+               || 'Failed to delete user'
+      toast.error(msg)
     }
   }
 

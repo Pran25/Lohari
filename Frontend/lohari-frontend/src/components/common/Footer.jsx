@@ -1,12 +1,13 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import {
   FiMapPin, FiPhone, FiMail, FiClock,
   FiInstagram, FiFacebook, FiYoutube,
-  FiArrowUpRight,
 } from 'react-icons/fi'
 
 function Footer() {
+  const { isAuthenticated } = useAuth()
+
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-white/[0.08] bg-slate-950">
       {/* Ambient glows */}
@@ -65,7 +66,7 @@ function Footer() {
             </h4>
             <ul className="space-y-3 text-sm">
               {[
-                { to: '/products', label: 'Products' },
+                ...(isAuthenticated ? [{ to: '/products', label: 'Products' }] : []),
                 { to: '/about', label: 'About Us' },
                 { to: '/contact', label: 'Contact' },
                 { to: '/orders', label: 'Orders' },
@@ -95,23 +96,23 @@ function Footer() {
                   <FiMapPin size={13} />
                 </span>
                 <span className="text-slate-400 leading-relaxed">
-                  123 Industrial Area,<br />Your City, India
+                  MIDC Road,<br />Chalisgaon
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-cyan-400/[0.08] border border-cyan-400/20 flex items-center justify-center text-cyan-400 shrink-0">
                   <FiPhone size={13} />
                 </span>
-                <a href="tel:+919876543210" className="text-slate-400 hover:text-cyan-300 transition-colors">
-                  +91 98765 43210
+                <a href="tel:+919834276435" className="text-slate-400 hover:text-cyan-300 transition-colors">
+                  +91 98342 76435
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-8 h-8 rounded-lg bg-cyan-400/[0.08] border border-cyan-400/20 flex items-center justify-center text-cyan-400 shrink-0">
                   <FiMail size={13} />
                 </span>
-                <a href="mailto:info@lohari.com" className="text-slate-400 hover:text-cyan-300 transition-colors">
-                  info@lohari.com
+                <a href="mailto:lohari.orders@gmail.com" className="text-slate-400 hover:text-cyan-300 transition-colors">
+                  lohari.orders@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
